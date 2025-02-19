@@ -54,7 +54,7 @@ The current interface is not yet complete include the checked part, I will conti
 - [ ] Address (`cfaker_address`)
 - [x] Bank (`cfaker_bank`)
 - [ ] Barcode (`cfaker_barcode`)
-- [ ] Book (`cfaker_book`)
+- [x] Book (`cfaker_book`)
 - [ ] Color (`cfaker_color`)
 - [ ] Company (`cfaker_company`)
 - [ ] Date & Time (`cfaker_datetime`)
@@ -64,7 +64,7 @@ The current interface is not yet complete include the checked part, I will conti
 - [ ] Phone (`cfaker_phone`)
 - [ ] Payment (`cfaker_payment`)
 - [ ] Uuid (`cfaker_uuid`)
-
+- [ ] ...
 
 ## License
 

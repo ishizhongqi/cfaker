@@ -5,17 +5,22 @@
 #include "providers/cfaker_job.h"
 #include "providers/data/cfaker_job_data.h"
 
-const char* cfaker_job_name() {
+static const struct cfaker_job get_cfaker_job() {
     enum cfaker_locale locale = cfaker_locale_get();
     switch (locale) {
     case en_US:
-        return cfaker_job_en_US.jobs[cfaker_random_int(0, cfaker_job_en_US.job_count - 1)];
+        return cfaker_job_en_US;
         break;
     case zh_CN:
-        return cfaker_job_zh_CN.jobs[cfaker_random_int(0, cfaker_job_zh_CN.job_count - 1)];
+        return cfaker_job_zh_CN;
         break;
     default:
         break;
     }
-    return cfaker_job_en_US.jobs[cfaker_random_int(0, cfaker_job_en_US.job_count - 1)];
+    return cfaker_job_en_US;
+}
+
+const char* cfaker_job_name() {
+    const struct cfaker_job job = get_cfaker_job();
+    return job.jobs[cfaker_random_int(0, job.job_count - 1)];
 }
