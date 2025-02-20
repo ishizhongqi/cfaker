@@ -64,6 +64,17 @@ const char* cfaker_format_replace_chars(const char* format, const char* letters)
  */
 const char* cfaker_format_replace_hexchars(const char* format, int upper);
 
+/**
+ * Formats a datetime string based on a format string and a random timestamp
+ * generated between two provided dates.
+ *
+ * @param format A format string containing datetime format specifiers (e.g., "%Y-%m-%d %H:%M:%S").
+ * @param start A string representing the start date-time in the format "YYYY-MM-DD HH:MM:SS".
+ * @param end A string representing the end date-time in the format "YYYY-MM-DD HH:MM:SS".
+ * @return A formatted datetime string based on the random timestamp generated within the specified range.
+ */
+const char* cfaker_format_replace_datetime(const char* format, const char* start, const char* end);
+
 void cfaker_format_free();
 
 #endif /* CFAKER_FORMAT_H */

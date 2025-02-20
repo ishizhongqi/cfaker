@@ -6,13 +6,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include <unistd.h>
 
 static _Thread_local char* buffer = NULL;    /* Thread-local storage for random strings */
 static _Thread_local size_t buffer_size = 0; /* Buffer size */
 
 /* Calculates the required buffer size for formatted output */
-static size_t calculate_size(const char* format, const struct cfaker_format_mapping* mappings, size_t mapping_count) {
+static size_t calculate_mappings_size(const char* format, const struct cfaker_format_mapping* mappings,
+                                      size_t mapping_count) {
     size_t size = 1; /* Start with 1 for the null terminator */
 
     const char* ptr = format;
@@ -48,6 +50,36 @@ static size_t calculate_size(const char* format, const struct cfaker_format_mapp
     return size;
 }
 
+static size_t calculate_datetime_size(const char* format) {
+    size_t size = 1; /* Start with 1 for the null terminator */
+    const char* ptr = format;
+
+    while (*ptr) {
+        if (*ptr == '%') {
+            ptr++;  // Skip '%' symbol
+            switch (*ptr) {
+            case 'Y':  // 4 digits for year
+                size += 4;
+                break;
+            case 'm':  // 2 digits for month
+            case 'd':  // 2 digits for day
+            case 'H':  // 2 digits for hour
+            case 'M':  // 2 digits for minute
+            case 'S':  // 2 digits for second
+                size += 2;
+                break;
+            default:
+                size++;  // Add 1 for other format symbols
+                break;
+            }
+        } else {
+            size++;
+        }
+        ptr++;
+    }
+    return size;
+}
+
 static int update_buffer_size(size_t size) {
     if (buffer_size < size) {
         buffer = realloc(buffer, size * sizeof(char));
@@ -74,7 +106,7 @@ int cfaker_format_init(size_t size) {
 
 const char* cfaker_format_replace_string(const char* format, const struct cfaker_format_mapping* mappings,
                                          size_t mapping_count) {
-    size_t required_size = calculate_size(format, mappings, mapping_count);
+    size_t required_size = calculate_mappings_size(format, mappings, mapping_count);
 
     if (update_buffer_size(required_size) != 0) {
         return NULL;
@@ -182,6 +214,24 @@ const char* cfaker_format_replace_hexchars(const char* format, int upper) {
             (format[i] == '^') ? (upper ? toupper(cfaker_random_hexchar()) : cfaker_random_hexchar()) : format[i];
     }
     buffer[len] = '\0';
+    return buffer;
+}
+
+const char* cfaker_format_replace_datetime(const char* format, const char* start, const char* end) {
+    size_t required_size = calculate_datetime_size(format);
+    if (update_buffer_size(required_size) != 0) {  // Resize buffer for larger possible result
+        return NULL;
+    }
+
+    // Generate a random timestamp within the provided range
+    time_t random_timestamp = cfaker_random_timestamp(start, end);
+
+    // Convert the random timestamp into a struct tm
+    struct tm* time_info = localtime(&random_timestamp);
+
+    // Format the datetime using strftime
+    strftime(buffer, buffer_size, format, time_info);
+
     return buffer;
 }
 

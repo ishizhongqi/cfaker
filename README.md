@@ -57,7 +57,7 @@ The current interface is not yet complete include the checked part, I will conti
 - [x] Book (`cfaker_book`)
 - [ ] Color (`cfaker_color`)
 - [ ] Company (`cfaker_company`)
-- [ ] Date & Time (`cfaker_datetime`)
+- [x] Date & Time (`cfaker_datetime`)
 - [ ] Internet (`cfaker_internet`)
 - [x] Job (`cfaker_job`)
 - [x] Person (`cfaker_person`)

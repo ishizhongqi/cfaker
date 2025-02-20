@@ -3,6 +3,7 @@
 
 #include <stddef.h>
 #include <stdint.h>
+#include <time.h>
 
 /**
  * Initialize the random number and character generator.
@@ -129,6 +130,14 @@ const char** cfaker_random_sample(const char** elements, size_t count, size_t le
  * @return A random number of elements.
  */
 int cfaker_random_randomize(int number, int le, int ge, int min_val, int max_val);
+
+/**
+ * Generate a random timestamp between two given start and end times.
+ * @param start A string representing the start date-time in the format "YYYY-MM-DD HH:MM:SS".
+ * @param end A string representing the end date-time in the format "YYYY-MM-DD HH:MM:SS".
+ * @return A random timestamp (time_t) between the given start and end times.
+ */
+time_t cfaker_random_timestamp(const char* start, const char* end);
 
 /**
  * Free the memory allocated by the random number and character generator.

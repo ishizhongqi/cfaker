@@ -236,6 +236,33 @@ int cfaker_random_randomize(int number, int le, int ge, int min_val, int max_val
     return nb;
 }
 
+time_t cfaker_random_timestamp(const char* start, const char* end) {
+    struct tm tm_start = { 0 }, tm_end = { 0 };
+    time_t start_time, end_time;
+
+    // Use sscanf to parse the datetime string manually
+    if (sscanf(start, "%d-%d-%d %d:%d:%d", &tm_start.tm_year, &tm_start.tm_mon, &tm_start.tm_mday, &tm_start.tm_hour,
+               &tm_start.tm_min, &tm_start.tm_sec)
+            != 6
+        || sscanf(end, "%d-%d-%d %d:%d:%d", &tm_end.tm_year, &tm_end.tm_mon, &tm_end.tm_mday, &tm_end.tm_hour,
+                  &tm_end.tm_min, &tm_end.tm_sec)
+               != 6) {
+        return (time_t)0;
+    }
+
+    tm_start.tm_year -= 1900;  // Years since 1900
+    tm_start.tm_mon -= 1;      // Months are 0-based
+    tm_end.tm_year -= 1900;
+    tm_end.tm_mon -= 1;
+
+    // Convert to time_t
+    start_time = mktime(&tm_start);
+    end_time = mktime(&tm_end);
+
+    // Generate a random timestamp between start_time and end_time
+    return cfaker_random_int(start_time, end_time);
+}
+
 void cfaker_random_free() {
     if (buffer != NULL) {
         free(buffer);
