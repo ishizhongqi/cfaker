@@ -19,10 +19,17 @@
 
 ### Build Steps
 
+#### Linux
 ```sh
 mkdir build && cd build
 cmake ..
 make
+```
+#### Windows
+```sh
+mkdir build && cd build
+cmake -G "MinGW Makefiles" ..
+cmake --build .
 ```
 
 ## Usage

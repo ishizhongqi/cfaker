@@ -77,16 +77,16 @@ const char* cfaker_format_replace_numbers(const char* format);
 const char* cfaker_format_replace_letters(const char* format, const char* letters);
 
 /**
- * @brief Generate a string with each tilde ('~') in ``text`` replaced with a random character from ``hexchars``.
- * By default, ``hexchars`` contains all hexadecimal characters (0-9, a-f).
+ * @brief Generate a string in accordance with the rules of `cfaker_format_replace_numbers` and
+ * `cfaker_format_replace_letters`.
  *
  * @param format The format string.
- * @param hexchars The list of hexadecimal characters to choose from. If NULL, all ASCII letters are used.
+ * @param hexchars The list of characters to choose from. If NULL, all ASCII letters or numbers are used.
  *
- * @returns A formatted string with '~' replaced by random characters.
+ * @returns A formatted string with '#' and '?' replaced by random characters.
  *
  * @code
- * cfaker_format_replace_chars("Color code: ~~~"); // "Color code: 3af"
+ * cfaker_format_replace_chars("Color code: #??"); // "Color code: 3af"
  * @endcode
  */
 const char* cfaker_format_replace_chars(const char* format, const char* letters);
