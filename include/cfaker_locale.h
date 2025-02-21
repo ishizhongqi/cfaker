@@ -220,10 +220,37 @@ enum cfaker_locale {
     cfaker_locale_count /* Count of locales */
 };
 
+/**
+ * @brief Sets the locale for generating fake data.
+ *
+ * @param locale The locale to set (e.g., `en_US`, `zh_CN`).
+ *
+ * @code
+ * cfaker_locale_set(en_US); // Sets locale to US English
+ * @endcode
+ */
 void cfaker_locale_set(enum cfaker_locale locale);
 
+/**
+ * @brief Sets the locale for generating fake data using a string.
+ *
+ * @param locale A string representing the locale (e.g., "en_US", "zh_CN").
+ *
+ * @code
+ * cfaker_locale_set_bystring("en_US"); // Sets locale to US English
+ * @endcode
+ */
 void cfaker_locale_set_bystring(const char* locale);
 
+/**
+ * @brief Gets the current locale for generating fake data.
+ *
+ * @returns The current locale being used.
+ *
+ * @code
+ * cfaker_locale_get(); // en_US
+ * @endcode
+ */
 enum cfaker_locale cfaker_locale_get();
 
 #endif

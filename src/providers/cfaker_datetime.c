@@ -26,16 +26,10 @@ static const struct cfaker_datetime get_cfaker_datetime() {
     return cfaker_datetime_en_US;
 }
 
-/* cfaker_datetime_timestamp
-   Generates a random timestamp (as a number in string form)
-   The 'format' parameter is a printf-style format (e.g. \"%ld\") */
 time_t cfaker_datetime_timestamp(const char* start, const char* end) {
     return cfaker_random_timestamp(start, end);
 }
 
-/* cfaker_datetime_datetime
-   Generates a formatted datetime string using strftime.
-   'format' should be a valid strftime format (e.g. \"%Y-%m-%d %H:%M:%S\") */
 const char* cfaker_datetime_datetime(const char* format, const char* start, const char* end) {
     return cfaker_format_replace_datetime(format, start, end);
 }
@@ -71,39 +65,26 @@ const char* cfaker_datetime_timezone() {
     return datetime.abbreviated_timezones[cfaker_random_int(0, datetime.abbreviated_timezone_count - 1)];
 }
 
-/* cfaker_datetime_year
-   Returns a random year within a reasonable range (e.g. 1970-2030) */
 unsigned int cfaker_datetime_year() {
     return cfaker_random_int(1970, 2030);
 }
 
-/* cfaker_datetime_month
-   Returns a random month (1-12) */
 unsigned int cfaker_datetime_month() {
     return cfaker_random_int(1, 12);
 }
 
-/* cfaker_datetime_hour
-   Returns a random hour (0-23) */
 unsigned int cfaker_datetime_hour() {
     return cfaker_random_int(0, 23);
 }
 
-/* cfaker_datetime_minute
-   Returns a random minute (0-59) */
 unsigned int cfaker_datetime_minute() {
     return cfaker_random_int(0, 59);
 }
 
-/* cfaker_datetime_second
-   Returns a random second (0-59) */
 unsigned int cfaker_datetime_second() {
     return cfaker_random_int(0, 59);
 }
 
-/* cfaker_datetime_day_of_month
-   Given a month (1-12), returns a random day of month (1 to max days in that month)
-   For simplicity, leap years are not considered. */
 unsigned int cfaker_datetime_day_of_month(unsigned int month) {
     unsigned int max_day;
     switch (month) {
@@ -123,8 +104,6 @@ unsigned int cfaker_datetime_day_of_month(unsigned int month) {
     return cfaker_random_int(1, max_day);
 }
 
-/* cfaker_datetime_day_of_week
-   Returns a random day of the week (1 = Sunday, 7 = Saturday) */
 unsigned int cfaker_datetime_day_of_week() {
     return cfaker_random_int(1, 7);
 }

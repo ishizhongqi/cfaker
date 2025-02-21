@@ -28,7 +28,6 @@ struct cfaker_person {
     const char* format_full_name; /* Example: "{first_name} {last_name}" */
 };
 
-/* Global variables for locale-specific data */
 extern const struct cfaker_person cfaker_person_en_US;
 extern const struct cfaker_person cfaker_person_zh_CN;
 

@@ -140,20 +140,20 @@ char* cfaker_random_letters(uint32_t size) {
 
 const char** cfaker_random_elements(const char** elements, size_t count, size_t length, int unique) {
     if (count == 0)
-        return NULL;
+        return NULL; /* Return NULL if no elements are provided */
 
-    /* 若 length 为 0，则随机决定返回多少个元素（至少 1 个，最多 count 个） */
+    /* If length is 0, randomly decide how many elements to return (between 1 and count) */
     if (length == 0) {
         length = cfaker_random_int(1, count);
     }
 
-    /* 如果要求唯一抽样，但 requested length 大于可选元素个数，则报错 */
+    /* If unique sampling is requested but the requested length is greater than available elements, return error */
     if (unique && length > count) {
         fprintf(stderr, "Error: requested unique sample length exceeds available elements.\n");
         return NULL;
     }
 
-    /* 分配存储结果的数组 */
+    /* Allocate memory for the result array if needed */
     if (length > elements_buffer_size) {
         elements_buffer = realloc(elements_buffer, length * sizeof(char*));
         if (!elements_buffer) {
@@ -164,13 +164,13 @@ const char** cfaker_random_elements(const char** elements, size_t count, size_t 
     }
 
     if (!unique) {
-        /* 有放回抽样：每次都从所有元素中随机选取 */
+        /* With replacement: randomly select each element from the available list */
         for (size_t i = 0; i < length; i++) {
             elements_buffer[i] = elements[cfaker_random_int(0, count - 1)];
         }
     } else {
-        /* 无放回抽样：使用 Fisher-Yates 洗牌算法 */
-        /* 先复制一份原始数组到临时数组 */
+        /* Without replacement: use Fisher-Yates shuffle algorithm */
+        /* First, copy the original array to a temporary array */
         if (count > elements_duplicate_size) {
             elements_duplicate = realloc(elements_duplicate, count * sizeof(char*));
             if (!elements_duplicate) {
@@ -181,59 +181,70 @@ const char** cfaker_random_elements(const char** elements, size_t count, size_t 
         }
         memcpy(elements_duplicate, elements, count * sizeof(char*));
 
-        /* 洗牌：从后向前随机交换 */
+        /* Shuffle: swap elements from back to front */
         for (size_t i = count - 1; i > 0; i--) {
             size_t j = cfaker_random_int(0, i);
             const char* swap = elements_duplicate[i];
             elements_duplicate[i] = elements_duplicate[j];
             elements_duplicate[j] = swap;
         }
-        /* 取前 length 个元素 */
+        /* Select the first 'length' elements */
         for (size_t i = 0; i < length; i++) {
             elements_buffer[i] = elements_duplicate[i];
         }
     }
-    return elements_buffer;
+    return elements_buffer; /* Return the randomly sampled elements */
 }
 
 const char** cfaker_random_choices(const char** elements, size_t count, size_t length) {
+    /* Call cfaker_random_elements with unique = 0 for sampling with replacement */
     return cfaker_random_elements(elements, count, length, 0);
 }
 
 const char* cfaker_random_element(const char** elements, size_t count) {
+    /* Get one randomly sampled element from the list */
     const char** res = cfaker_random_elements(elements, count, 1, 0);
-    const char* elem = res[0];
+    const char* elem = res[0]; /* Return the selected element */
     return elem;
 }
 
 const char** cfaker_random_sample(const char** elements, size_t count, size_t length) {
+    /* Call cfaker_random_elements with unique = 1 for sampling without replacement */
     return cfaker_random_elements(elements, count, length, 1);
 }
 
 int cfaker_random_randomize(int number, int le, int ge, int min_val, int max_val) {
-    /* 根据给定的 number，生成一个随机数量，该值大致在某个比例范围内。
-     * 参数：
-     *   number: 基准数字
-     *   le: 如果为非0，表示上界限定为 100%（否则可上升至 140%）
-     *   ge: 如果为非0，表示下界限定为 100%（否则可下降至 60%）
-     *   min_val: 若不希望结果低于某个值（若无此限制，可传 -1）
-     *   max_val: 若不希望结果高于某个值（若无此限制，可传 -1）
+    /* Generate a random number based on a given 'number' with some percentage variation */
+    /* Parameters:
+     *   number: Base value
+     *   le: If non-zero, the upper bound is limited to 100% (else it can increase up to 140%)
+     *   ge: If non-zero, the lower bound is limited to 100% (else it can decrease to 60%)
+     *   min_val: Minimum value constraint (pass -1 if no limit)
+     *   max_val: Maximum value constraint (pass -1 if no limit)
      */
-    /* 如果同时要求上界和下界都为 100%，则直接返回原数 */
+
+    /* If both upper and lower bounds are 100%, just return the original number */
     if (le && ge) {
         return number;
     }
+
+    /* Determine the lower and upper percentage bounds */
     int lower_percentage = ge ? 100 : 60;
     int upper_percentage = le ? 100 : 140;
+
+    /* Generate a random percentage between the determined bounds */
     int percentage = cfaker_random_int(lower_percentage, upper_percentage);
-    int nb = number * percentage / 100;
+    int nb = number * percentage / 100; /* Calculate the new number based on the percentage */
+
+    /* Apply minimum and maximum constraints if provided */
     if (min_val != -1 && nb < min_val) {
         nb = min_val;
     }
     if (max_val != -1 && nb > max_val) {
         nb = max_val;
     }
-    return nb;
+
+    return nb; /* Return the final randomized number */
 }
 
 time_t cfaker_random_timestamp(const char* start, const char* end) {
