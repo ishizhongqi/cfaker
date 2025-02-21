@@ -252,14 +252,11 @@ time_t cfaker_random_timestamp(const char* start, const char* end) {
     time_t start_time, end_time;
 
     // Use sscanf to parse the datetime string manually
-    if (sscanf(start, "%d-%d-%d %d:%d:%d", &tm_start.tm_year, &tm_start.tm_mon, &tm_start.tm_mday, &tm_start.tm_hour,
-               &tm_start.tm_min, &tm_start.tm_sec)
-            != 6
-        || sscanf(end, "%d-%d-%d %d:%d:%d", &tm_end.tm_year, &tm_end.tm_mon, &tm_end.tm_mday, &tm_end.tm_hour,
-                  &tm_end.tm_min, &tm_end.tm_sec)
-               != 6) {
-        return (time_t)0;
-    }
+    sscanf(start, "%d-%d-%d %d:%d:%d", &tm_start.tm_year, &tm_start.tm_mon, &tm_start.tm_mday, &tm_start.tm_hour,
+           &tm_start.tm_min, &tm_start.tm_sec);
+
+    sscanf(end, "%d-%d-%d %d:%d:%d", &tm_end.tm_year, &tm_end.tm_mon, &tm_end.tm_mday, &tm_end.tm_hour, &tm_end.tm_min,
+           &tm_end.tm_sec);
 
     tm_start.tm_year -= 1900;  // Years since 1900
     tm_start.tm_mon -= 1;      // Months are 0-based
