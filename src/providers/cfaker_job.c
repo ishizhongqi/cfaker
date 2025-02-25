@@ -22,5 +22,5 @@ static const struct cfaker_job get_cfaker_job() {
 
 const char* cfaker_job_name() {
     const struct cfaker_job job = get_cfaker_job();
-    return job.jobs[cfaker_random_int(0, job.job_count - 1)];
+    return job.names[cfaker_random_int(0, job.job_count - 1)];
 }

@@ -3,3 +3,4 @@ doc/
 build/
 test/
 libcfaker.a
+cloc-2.04.exe

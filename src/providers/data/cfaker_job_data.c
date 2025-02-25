@@ -1,6 +1,6 @@
 #include "providers/data/cfaker_job_data.h"
 
-static const char* jobs_en_US[] = {
+static const char* names_en_US[] = {
     "Academic librarian",
     "Accommodation manager",
     "Accountant, chartered",
@@ -643,11 +643,11 @@ static const char* jobs_en_US[] = {
 };
 
 const struct cfaker_job cfaker_job_en_US = {
-    .jobs = jobs_en_US,
-    .job_count = sizeof(jobs_en_US) / sizeof(jobs_en_US[0]),
+    .names = names_en_US,
+    .job_count = sizeof(names_en_US) / sizeof(names_en_US[0]),
 };
 
-static const char* jobs_zh_CN[] = {
+static const char* names_zh_CN[] = {
     "计算机硬件",
     "高级硬件工程师",
     "硬件工程师",
@@ -1668,6 +1668,6 @@ static const char* jobs_zh_CN[] = {
 };
 
 const struct cfaker_job cfaker_job_zh_CN = {
-    .jobs = jobs_zh_CN,
-    .job_count = sizeof(jobs_zh_CN) / sizeof(jobs_zh_CN[0]),
+    .names = names_zh_CN,
+    .job_count = sizeof(names_zh_CN) / sizeof(names_zh_CN[0]),
 };

@@ -4,8 +4,8 @@
 #include <stddef.h>
 
 struct cfaker_job {
-    const char** jobs; /* List of jobs */
-    size_t job_count;  /* Number of jobs */
+    const char** names; /* List of jobs */
+    size_t job_count;   /* Number of jobs */
 };
 
 extern const struct cfaker_job cfaker_job_en_US;

@@ -1,6 +1,6 @@
 #include "providers/data/cfaker_bank_data.h"
 
-static const char* banks_en_US[] = {
+static const char* names_en_US[] = {
     "JPMorgan Chase & Co.",
     "Bank of America Corporation",
     "Citigroup Inc.",
@@ -54,17 +54,17 @@ static const char* banks_en_US[] = {
 };
 
 const struct cfaker_bank cfaker_bank_en_US = {
-    .banks = banks_en_US,
-    .bank_count = sizeof(banks_en_US) / sizeof(banks_en_US[0]),
+    .names = names_en_US,
+    .bank_count = sizeof(names_en_US) / sizeof(names_en_US[0]),
 };
 
-static const char* banks_zh_CN[] = {
+static const char* names_zh_CN[] = {
     "中国工商银行", "中国建设银行", "中国农业银行", "中国银行",     "中国邮政储蓄银行", "交通银行", "招商银行",
     "浦发银行",     "兴业银行",     "中信银行",     "中国光大银行", "中国民生银行",     "平安银行", "华夏银行",
     "广发银行",     "上海银行",     "北京银行",     "南京银行",     "杭州银行",         "宁波银行", "温州银行",
 };
 
 const struct cfaker_bank cfaker_bank_zh_CN = {
-    .banks = banks_zh_CN,
-    .bank_count = sizeof(banks_zh_CN) / sizeof(banks_zh_CN[0]),
+    .names = names_zh_CN,
+    .bank_count = sizeof(names_zh_CN) / sizeof(names_zh_CN[0]),
 };

@@ -4,6 +4,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <time.h>
+
 /**
  * @brief Initialize the random number and character generator.
  * This function is called in cfaker_init() and does not need to be called again if cfaker_init() is called.
@@ -30,7 +31,20 @@ int cfaker_random_init(size_t size);
  * cfaker_random_int(10, 100); // 42
  * @endcode
  */
-uint32_t cfaker_random_int(uint32_t min, uint32_t max);
+int32_t cfaker_random_int(int32_t min, int32_t max);
+
+/**
+ * @brief Returns a random double value within the given range.
+ *
+ * @param min The minimum value of the range (inclusive).
+ * @param max The maximum value of the range (inclusive).
+ * @returns A random double value between min and max.
+ *
+ * @code
+ * cfaker_random_double(1.5, 5.5); // e.g., 3.2764
+ * @endcode
+ */
+double cfaker_random_double(double min, double max);
 
 /**
  * @brief Generate a random digit (0 to 9).

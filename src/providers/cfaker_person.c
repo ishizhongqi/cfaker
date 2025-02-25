@@ -82,5 +82,5 @@ const char* cfaker_person_full_name(enum cfaker_person_gender gender) {
         { "first_name", cfaker_person_first_name(gender) },
         { "last_name", cfaker_person_last_name() },
     };
-    return cfaker_format_replace_string(person.format_full_name, mappings, 2);
+    return cfaker_format_replace_string(person.formats[cfaker_random_int(0, person.format_count - 1)], mappings, 2);
 }

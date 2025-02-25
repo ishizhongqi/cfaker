@@ -22,5 +22,5 @@ static const struct cfaker_bank get_cfaker_bank() {
 
 const char* cfaker_bank_name() {
     const struct cfaker_bank bank = get_cfaker_bank();
-    return bank.banks[cfaker_random_int(0, bank.bank_count - 1)];
+    return bank.names[cfaker_random_int(0, bank.bank_count - 1)];
 }

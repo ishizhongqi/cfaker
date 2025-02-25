@@ -7,8 +7,11 @@
 
 #include "providers/cfaker_bank.h"
 #include "providers/cfaker_book.h"
+#include "providers/cfaker_color.h"
+#include "providers/cfaker_company.h"
 #include "providers/cfaker_datetime.h"
 #include "providers/cfaker_job.h"
+#include "providers/cfaker_number.h"
 #include "providers/cfaker_person.h"
 
 /**

@@ -1,6 +1,8 @@
 #ifndef CFAKER_FORMAT_H
 #define CFAKER_FORMAT_H
 
+#include <stdarg.h>
+#include <stdbool.h>
 #include <stddef.h>
 
 /**
@@ -26,6 +28,8 @@ struct cfaker_format_mapping {
  * @endcode
  */
 int cfaker_format_init(size_t size);
+
+const char* cfaker_format_replace_specifier(const char* format, ...);
 
 /**
  * @brief Replace tokens in a format string with their corresponding values.
@@ -104,7 +108,7 @@ const char* cfaker_format_replace_chars(const char* format, const char* letters)
  * cfaker_format_replace_hexchars("Hex code: ^^^"); // "Hex code: 3fA"
  * @endcode
  */
-const char* cfaker_format_replace_hexchars(const char* format, int upper);
+const char* cfaker_format_replace_hexchars(const char* format, bool upper);
 
 /**
  * @brief Formats a datetime string based on a format string and a random timestamp generated between two provided

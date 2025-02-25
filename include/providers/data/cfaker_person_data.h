@@ -25,7 +25,8 @@ struct cfaker_person {
     const char** suffixes_male; /* Suffixes (e.g., Jr., III) */
     size_t suffix_male_count;
 
-    const char* format_full_name; /* Example: "{first_name} {last_name}" */
+    const char** formats; /* Example: "{first_name} {last_name}" */
+    size_t format_count;
 };
 
 extern const struct cfaker_person cfaker_person_en_US;

@@ -104,6 +104,23 @@ int cfaker_format_init(size_t size) {
     return 0;
 }
 
+const char* cfaker_format_replace_specifier(const char* format, ...) {
+    va_list args;
+
+    va_start(args, format);
+    int required_size = vsnprintf(NULL, 0, format, args);
+    if (update_buffer_size(required_size) != 0) {
+        return NULL;
+    }
+    va_end(args);
+
+    va_start(args, format);
+    vsnprintf(buffer, sizeof(buffer), format, args);
+    va_end(args);
+
+    return buffer;
+}
+
 const char* cfaker_format_replace_string(const char* format, const struct cfaker_format_mapping* mappings,
                                          size_t mapping_count) {
     size_t required_size = calculate_mappings_size(format, mappings, mapping_count);
@@ -204,7 +221,7 @@ const char* cfaker_format_replace_chars(const char* format, const char* letters)
     return cfaker_format_replace_letters(cfaker_format_replace_numbers(format), letters);
 }
 
-const char* cfaker_format_replace_hexchars(const char* format, int upper) {
+const char* cfaker_format_replace_hexchars(const char* format, bool upper) {
     size_t len = strlen(format);
     if (update_buffer_size(len) != 0) {
         return NULL;

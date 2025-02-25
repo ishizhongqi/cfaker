@@ -250,6 +250,10 @@ static const char* suffixes_male_en_US[] = {
     "Jr.", "II", "III", "IV", "V", "MD", "DDS", "PhD", "DVM",
 };
 
+static const char* formats_en_US[] = {
+    "{first_name} {last_name}",
+};
+
 const struct cfaker_person cfaker_person_en_US = {
     .first_names_female = first_names_female_en_US,
     .first_name_female_count = sizeof(first_names_female_en_US) / sizeof(first_names_female_en_US[0]),
@@ -272,7 +276,8 @@ const struct cfaker_person cfaker_person_en_US = {
     .suffixes_male = suffixes_male_en_US,
     .suffix_male_count = sizeof(suffixes_male_en_US) / sizeof(suffixes_male_en_US[0]),
 
-    .format_full_name = "{first_name} {last_name}",
+    .formats = formats_en_US,
+    .format_count = sizeof(formats_en_US) / sizeof(formats_en_US[0]),
 };
 
 /* zh_CN static data */
@@ -325,6 +330,10 @@ static const char* last_names_zh_CN[] = {
 };
 static const char* suffixes_female_zh_CN[] = { "女士" };
 static const char* suffixes_male_zh_CN[] = { "先生" };
+static const char* formats_zh_CN[] = {
+    "{first_name} {last_name}",
+};
+
 const struct cfaker_person cfaker_person_zh_CN = {
     .first_names_female = first_names_female_zh_CN,
     .first_name_female_count = sizeof(first_names_female_zh_CN) / sizeof(first_names_female_zh_CN[0]),
@@ -347,5 +356,6 @@ const struct cfaker_person cfaker_person_zh_CN = {
     .suffixes_male = suffixes_male_zh_CN,
     .suffix_male_count = sizeof(suffixes_male_zh_CN) / sizeof(suffixes_male_zh_CN[0]),
 
-    .format_full_name = "{last_name}{first_name}",
+    .formats = formats_zh_CN,
+    .format_count = sizeof(formats_zh_CN) / sizeof(formats_zh_CN[0]),
 };

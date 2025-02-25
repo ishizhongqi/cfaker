@@ -76,9 +76,16 @@ int cfaker_random_init(size_t size) {
     return 0;
 }
 
-uint32_t cfaker_random_int(uint32_t min, uint32_t max) {
+int32_t cfaker_random_int(int32_t min, int32_t max) {
     uint32_t random_value = mt19937_generate();
-    return (random_value % (max - min + 1)) + min;
+    /* return (random_value % (max - min + 1)) + min; */
+    int64_t range = (int64_t)max - (int64_t)min + 1;
+    return (int32_t)(random_value % range + min);
+}
+
+double cfaker_random_double(double min, double max) {
+    double scale = (double)mt19937_generate() / UINT32_MAX;
+    return min + scale * (max - min);
 }
 
 uint32_t cfaker_random_digit() {

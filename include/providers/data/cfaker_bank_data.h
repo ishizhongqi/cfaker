@@ -4,7 +4,7 @@
 #include <stddef.h>
 
 struct cfaker_bank {
-    const char** banks; /* List of banks */
+    const char** names; /* List of banks */
     size_t bank_count;  /* Number of banks */
 };
 
