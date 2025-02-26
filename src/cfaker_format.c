@@ -115,7 +115,7 @@ const char* cfaker_format_replace_specifier(const char* format, ...) {
     va_end(args);
 
     va_start(args, format);
-    vsnprintf(buffer, sizeof(buffer), format, args);
+    vsnprintf(buffer, buffer_size, format, args);
     va_end(args);
 
     return buffer;
