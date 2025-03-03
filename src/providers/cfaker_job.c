@@ -5,7 +5,7 @@
 #include "providers/cfaker_job.h"
 #include "providers/data/cfaker_job_data.h"
 
-static const struct cfaker_job get_cfaker_job() {
+static struct cfaker_job get_cfaker_job() {
     enum cfaker_locale locale = cfaker_locale_get();
     switch (locale) {
     case en_US:

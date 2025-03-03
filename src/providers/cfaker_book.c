@@ -5,7 +5,7 @@
 #include "providers/cfaker_book.h"
 #include "providers/data/cfaker_book_data.h"
 
-static const struct cfaker_book get_cfaker_book() {
+static struct cfaker_book get_cfaker_book() {
     enum cfaker_locale locale = cfaker_locale_get();
     switch (locale) {
     case en_US:

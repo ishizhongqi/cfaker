@@ -11,7 +11,7 @@
 #include <time.h>
 #include <unistd.h>
 
-static const struct cfaker_datetime get_cfaker_datetime() {
+static struct cfaker_datetime get_cfaker_datetime() {
     enum cfaker_locale locale = cfaker_locale_get();
     switch (locale) {
     case en_US:

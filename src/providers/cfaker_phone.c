@@ -7,7 +7,7 @@
 
 #include <stdio.h>
 
-static const struct cfaker_phone get_cfaker_phone() {
+static struct cfaker_phone get_cfaker_phone() {
     enum cfaker_locale locale = cfaker_locale_get();
     switch (locale) {
     case en_US:

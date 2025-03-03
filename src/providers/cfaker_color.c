@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <string.h>
 
-static const struct cfaker_color get_cfaker_color() {
+static struct cfaker_color get_cfaker_color() {
     enum cfaker_locale locale = cfaker_locale_get();
     switch (locale) {
     case en_US:

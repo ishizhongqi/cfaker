@@ -5,7 +5,7 @@
 #include "providers/cfaker_bank.h"
 #include "providers/data/cfaker_bank_data.h"
 
-static const struct cfaker_bank get_cfaker_bank() {
+static struct cfaker_bank get_cfaker_bank() {
     enum cfaker_locale locale = cfaker_locale_get();
     switch (locale) {
     case en_US:
