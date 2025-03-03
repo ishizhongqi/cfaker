@@ -46,6 +46,7 @@ jobs:
       run: |
         choco install mingw -y
         echo "C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin" >> $GITHUB_PATH
+      shell: pwsh  # Explicitly use PowerShell for Windows
 
     - name: Install Clang (Linux and macOS)
       if: matrix.c_compiler == 'clang' && (matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest')
@@ -57,6 +58,7 @@ jobs:
           brew install llvm
           echo "/usr/local/opt/llvm/bin" >> $GITHUB_PATH
         fi
+      shell: bash
 
     - name: Set reusable strings
       id: strings
@@ -66,22 +68,21 @@ jobs:
 
     - name: Configure CMake (Main library only)
       run: |
-        cmake -B ${{ steps.strings.outputs.build-output-dir }} \
-          -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} \
-          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-          -S ${{ github.workspace }}
+        cmake -B "${{ steps.strings.outputs.build-output-dir }}" -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -S "${{ github.workspace }}"
+      shell: bash  # Use bash for consistency across platforms
 
     - name: Build Main Library
-      run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
+      run: cmake --build "${{ steps.strings.outputs.build-output-dir }}" --config ${{ matrix.build_type }}
+      shell: bash
 
     - name: Upload Library Artifact
-      uses: actions/upload-artifact@v4  # Updated to v4
+      uses: actions/upload-artifact@v4
       with:
         name: cfaker-lib-${{ matrix.os }}-${{ matrix.build_type }}-${{ matrix.c_compiler }}
         path: ${{ github.workspace }}/build/libcfaker.*
 
   test:
-    needs: build  # Depends on the build job
+    needs: build
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -119,6 +120,7 @@ jobs:
       run: |
         choco install mingw -y
         echo "C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin" >> $GITHUB_PATH
+      shell: pwsh
 
     - name: Install Clang (Linux and macOS)
       if: matrix.c_compiler == 'clang' && (matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest')
@@ -130,23 +132,24 @@ jobs:
           brew install llvm
           echo "/usr/local/opt/llvm/bin" >> $GITHUB_PATH
         fi
+      shell: bash
 
     - name: Download Library Artifact
-      uses: actions/download-artifact@v4  # Updated to v4
+      uses: actions/download-artifact@v4
       with:
         name: cfaker-lib-${{ matrix.os }}-${{ matrix.build_type }}-${{ matrix.c_compiler }}
         path: ${{ github.workspace }}/build/
 
     - name: Configure CMake for Tests
       run: |
-        cmake -B ${{ github.workspace }}/test/build \
-          -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} \
-          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-          -S ${{ github.workspace }}/test
+        cmake -B "${{ github.workspace }}/test/build" -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -S "${{ github.workspace }}/test"
+      shell: bash
 
     - name: Build Tests
-      run: cmake --build ${{ github.workspace }}/test/build --config ${{ matrix.build_type }}
+      run: cmake --build "${{ github.workspace }}/test/build" --config ${{ matrix.build_type }}
+      shell: bash
 
     - name: Run Tests
       working-directory: ${{ github.workspace }}/test/build
       run: ctest --build-config ${{ matrix.build_type }} --output-on-failure
+      shell: bash
