@@ -69,7 +69,7 @@ The current interface is not yet complete include the checked part, I will conti
 - [x] Job (`cfaker_job`)
 - [x] Number (`cfaker_number`)
 - [x] Person (`cfaker_person`)
-- [ ] Phone (`cfaker_phone`)
+- [x] Phone (`cfaker_phone`)
 - [ ] Payment (`cfaker_payment`)
 - [ ] Uuid (`cfaker_uuid`)
 - [ ] ...
