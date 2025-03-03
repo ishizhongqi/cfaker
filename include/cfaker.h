@@ -13,6 +13,7 @@
 #include "providers/cfaker_job.h"
 #include "providers/cfaker_number.h"
 #include "providers/cfaker_person.h"
+#include "providers/cfaker_phone.h"
 
 /**
  * @brief Initialize the cfaker library.
