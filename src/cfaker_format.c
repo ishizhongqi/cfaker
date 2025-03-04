@@ -7,7 +7,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <unistd.h>
 
 static _Thread_local char* buffer = NULL;    /* Thread-local storage for random strings */
 static _Thread_local size_t buffer_size = 0; /* Buffer size */
