@@ -38,10 +38,27 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install MinGW (Windows)
+    - name: Cache MinGW
+      id: cache-mingw
       if: matrix.os == 'windows-latest' && matrix.c_compiler == 'gcc'
+      uses: actions/cache@v4
+      with:
+        path: C:\ProgramData\chocolatey\lib\mingw
+        key: ${{ runner.os }}-mingw-13.2.0-${{ hashFiles('**/CMakeLists.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-mingw-13.2.0-
+
+    - name: Install MinGW (Windows)
+      if: matrix.os == 'windows-latest' && matrix.c_compiler == 'gcc' && steps.cache-mingw.outputs.cache-hit != 'true'
       run: |
         choco install mingw --version=13.2.0 -y
+        echo "C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin" >> $GITHUB_PATH
+        gcc --version
+      shell: pwsh
+
+    - name: Setup MinGW Path (if cached)
+      if: matrix.os == 'windows-latest' && matrix.c_compiler == 'gcc' && steps.cache-mingw.outputs.cache-hit == 'true'
+      run: |
         echo "C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin" >> $GITHUB_PATH
         gcc --version
       shell: pwsh
@@ -121,10 +138,27 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install MinGW (Windows)
+    - name: Cache MinGW
+      id: cache-mingw
       if: matrix.os == 'windows-latest' && matrix.c_compiler == 'gcc'
+      uses: actions/cache@v4
+      with:
+        path: C:\ProgramData\chocolatey\lib\mingw
+        key: ${{ runner.os }}-mingw-13.2.0-${{ hashFiles('**/CMakeLists.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-mingw-13.2.0-
+
+    - name: Install MinGW (Windows)
+      if: matrix.os == 'windows-latest' && matrix.c_compiler == 'gcc' && steps.cache-mingw.outputs.cache-hit != 'true'
       run: |
         choco install mingw --version=13.2.0 -y
+        echo "C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin" >> $GITHUB_PATH
+        gcc --version
+      shell: pwsh
+
+    - name: Setup MinGW Path (if cached)
+      if: matrix.os == 'windows-latest' && matrix.c_compiler == 'gcc' && steps.cache-mingw.outputs.cache-hit == 'true'
+      run: |
         echo "C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin" >> $GITHUB_PATH
         gcc --version
       shell: pwsh

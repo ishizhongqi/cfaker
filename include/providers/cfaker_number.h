@@ -2,6 +2,7 @@
 #define __CFAKER_NUMBER_H__
 
 #include <stdbool.h>
+#include <stdint.h>
 
 /**
  * @brief Enum representing different hex prefix formats.
