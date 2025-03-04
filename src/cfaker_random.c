@@ -5,7 +5,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+
+#ifdef _MSC_VER
+#include <process.h>
+#else
 #include <unistd.h>
+#endif
 
 static _Thread_local char* buffer = NULL;    /* Thread-local storage for random strings */
 static _Thread_local size_t buffer_size = 0; /* Buffer size */
@@ -67,7 +72,14 @@ int cfaker_random_init(size_t size) {
         elements_duplicate_size = size;
     }
 
-    unsigned int seed = (unsigned int)time(NULL) + getpid();
+    int pid =
+#ifdef _MSC_VER
+        _getpid();
+#else
+        getpid();
+#endif
+
+    unsigned int seed = (unsigned int)time(NULL) + pid;
     mt19937_state[0] = seed;
     for (int i = 1; i < 624; i++) {
         mt19937_state[i] = (1812433253 * (mt19937_state[i - 1] ^ (mt19937_state[i - 1] >> 30)) + i);

@@ -9,7 +9,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <unistd.h>
 
 static struct cfaker_datetime get_cfaker_datetime() {
     enum cfaker_locale locale = cfaker_locale_get();
