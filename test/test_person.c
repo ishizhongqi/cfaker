@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <string.h>
 
-// 测试辅助函数：检查字符串是否非空并打印结果
 static int check_string(const char* func_name, const char* result) {
     if (result == NULL || strlen(result) == 0) {
         printf("FAIL: %s returned NULL or empty string\n", func_name);
@@ -12,7 +11,6 @@ static int check_string(const char* func_name, const char* result) {
     return 0;  // 成功
 }
 
-// 测试 cfaker_person_first_name
 static int test_first_name() {
     int failures = 0;
     const char* female_name = cfaker_person_first_name(CFAKER_PERSON_FEMALE);
@@ -26,13 +24,11 @@ static int test_first_name() {
     return failures;
 }
 
-// 测试 cfaker_person_last_name
 static int test_last_name() {
     const char* last_name = cfaker_person_last_name();
     return check_string("cfaker_person_last_name", last_name);
 }
 
-// 测试 cfaker_person_prefix
 static int test_prefix() {
     int failures = 0;
     const char* female_prefix = cfaker_person_prefix(CFAKER_PERSON_FEMALE);
@@ -46,7 +42,6 @@ static int test_prefix() {
     return failures;
 }
 
-// 测试 cfaker_person_suffix
 static int test_suffix() {
     int failures = 0;
     const char* female_suffix = cfaker_person_suffix(CFAKER_PERSON_FEMALE);
@@ -60,7 +55,6 @@ static int test_suffix() {
     return failures;
 }
 
-// 测试 cfaker_person_full_name
 static int test_full_name() {
     int failures = 0;
     const char* female_full = cfaker_person_full_name(CFAKER_PERSON_FEMALE);
@@ -74,7 +68,6 @@ static int test_full_name() {
     return failures;
 }
 
-// 主测试函数
 int main() {
     int failures = 0;
 
@@ -91,5 +84,5 @@ int main() {
         printf("Tests failed: %d failures\n", failures);
     }
 
-    return failures > 0 ? 1 : 0;  // 返回非零表示失败，供 CTest 使用
+    return failures > 0 ? 1 : 0;
 }

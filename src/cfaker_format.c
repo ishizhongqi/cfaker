@@ -258,7 +258,7 @@ const char* cfaker_format_replace_datetime(const char* format, const char* start
 }
 
 void cfaker_format_free() {
-    if (buffer != NULL) {
+    if (buffer != NULL && buffer_size != 0) {
         free(buffer);
         buffer = NULL;
         buffer_size = 0;

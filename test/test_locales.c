@@ -1,7 +1,6 @@
 #include "cfaker_locale.h"
 #include <stdio.h>
 
-// 检查 locale 设置和获取是否一致
 static int check_locale_set(enum cfaker_locale set_locale, const char* func_name) {
     cfaker_locale_set(set_locale);
     enum cfaker_locale current = cfaker_locale_get();
@@ -13,7 +12,6 @@ static int check_locale_set(enum cfaker_locale set_locale, const char* func_name
     return 0;
 }
 
-// 检查字符串设置的 locale
 static int check_locale_set_bystring(const char* locale_str, enum cfaker_locale expected, const char* func_name) {
     cfaker_locale_set_bystring(locale_str);
     enum cfaker_locale current = cfaker_locale_get();
@@ -25,7 +23,6 @@ static int check_locale_set_bystring(const char* locale_str, enum cfaker_locale 
     return 0;
 }
 
-// 测试 cfaker_locale_set
 static int test_locale_set() {
     int failures = 0;
     failures += check_locale_set(en_US, "cfaker_locale_set(en_US)");
@@ -33,7 +30,6 @@ static int test_locale_set() {
     return failures;
 }
 
-// 测试 cfaker_locale_set_bystring
 static int test_locale_set_bystring() {
     int failures = 0;
     failures += check_locale_set_bystring("en_US", en_US, "cfaker_locale_set_bystring(en_US)");
@@ -41,7 +37,6 @@ static int test_locale_set_bystring() {
     return failures;
 }
 
-// 测试 cfaker_locale_get
 static int test_locale_get() {
     cfaker_locale_set(en_US);
     enum cfaker_locale current = cfaker_locale_get();

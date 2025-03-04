@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <string.h>
 
-// 检查无符号整数范围
 static int check_uint_range(const char* func_name, unsigned int value, unsigned int min, unsigned int max) {
     if (value < min || value > max) {
         printf("FAIL: %s returned %u, out of range [%u, %u]\n", func_name, value, min, max);
@@ -12,7 +11,6 @@ static int check_uint_range(const char* func_name, unsigned int value, unsigned 
     return 0;
 }
 
-// 检查字符串非空
 static int check_string(const char* func_name, const char* result) {
     if (result == NULL || strlen(result) == 0) {
         printf("FAIL: %s returned NULL or empty string\n", func_name);
@@ -22,7 +20,6 @@ static int check_string(const char* func_name, const char* result) {
     return 0;
 }
 
-// 测试 cfaker_datetime_timestamp
 static int test_timestamp() {
     time_t result = cfaker_datetime_timestamp("2020-01-01", "2025-12-31");
     if (result == (time_t)-1) {
@@ -33,13 +30,11 @@ static int test_timestamp() {
     return 0;
 }
 
-// 测试 cfaker_datetime_datetime
 static int test_datetime() {
     const char* result = cfaker_datetime_datetime("%Y-%m-%d", "2020-01-01", "2025-12-31");
     return check_string("cfaker_datetime_datetime", result);
 }
 
-// 测试 cfaker_datetime_month_name
 static int test_month_name() {
     const char* full = cfaker_datetime_month_name(CFAKER_DATETIME_FULL);
     const char* abbr = cfaker_datetime_month_name(CFAKER_DATETIME_ABBREVIATED);
@@ -49,7 +44,6 @@ static int test_month_name() {
     return failures;
 }
 
-// 测试 cfaker_datetime_weekday_name
 static int test_weekday_name() {
     const char* full = cfaker_datetime_weekday_name(CFAKER_DATETIME_FULL);
     const char* abbr = cfaker_datetime_weekday_name(CFAKER_DATETIME_ABBREVIATED);

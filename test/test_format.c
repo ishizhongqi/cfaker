@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-// 检查字符串是否非空
 static int check_string(const char* func_name, const char* result) {
     if (result == NULL || strlen(result) == 0) {
         printf("FAIL: %s returned NULL or empty string\n", func_name);
@@ -13,19 +12,16 @@ static int check_string(const char* func_name, const char* result) {
     return 0;
 }
 
-// 测试 cfaker_format_init 和 cfaker_format_free
-static int test_init_free() {
+static int test_init() {
     int result = cfaker_format_init(1024);
     if (result != 0) {
         printf("FAIL: cfaker_format_init returned %d\n", result);
         return 1;
     }
     printf("PASS: cfaker_format_init succeeded\n");
-    cfaker_format_free();
     return 0;
 }
 
-// 测试 cfaker_format_replace_string
 static int test_replace_string() {
     struct cfaker_format_mapping mappings[] = { { "firstname", "John" }, { "lastname", "Doe" } };
     const char* result = cfaker_format_replace_string("{firstname} {lastname}", mappings, 2);
@@ -37,13 +33,11 @@ static int test_replace_string() {
     return failures;
 }
 
-// 测试 cfaker_format_replace_numbers
 static int test_replace_numbers() {
     const char* result = cfaker_format_replace_numbers("###-###-####");
     return check_string("cfaker_format_replace_numbers", result);
 }
 
-// 测试 cfaker_format_replace_letters
 static int test_replace_letters() {
     const char* result = cfaker_format_replace_letters("???-abc", NULL);
     return check_string("cfaker_format_replace_letters", result);
@@ -52,7 +46,7 @@ static int test_replace_letters() {
 int main() {
     int failures = 0;
     printf("Testing cfaker_format module...\n");
-    failures += test_init_free();
+    failures += test_init();
     failures += test_replace_string();
     failures += test_replace_numbers();
     failures += test_replace_letters();
@@ -62,6 +56,6 @@ int main() {
     } else {
         printf("Tests failed: %d failures\n", failures);
     }
-    cfaker_format_free();  // 确保清理
+    cfaker_format_free();
     return failures > 0 ? 1 : 0;
 }

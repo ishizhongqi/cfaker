@@ -22,7 +22,7 @@ add_executable(test_book test_book.c)
 add_executable(test_company test_company.c)
 
 if(MSVC)
-    add_compile_options(/W4 /DEBUG)
+    add_compile_options(/W4 /DEBUG /utf-8)
     add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
 elseif(CMAKE_C_COMPILER_ID MATCHES "GNU|Clang")
     add_compile_options(-Wall -Wextra -g -std=c11)

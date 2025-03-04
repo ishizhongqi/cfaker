@@ -291,19 +291,19 @@ time_t cfaker_random_timestamp(const char* start, const char* end) {
 }
 
 void cfaker_random_free() {
-    if (buffer != NULL) {
+    if (buffer != NULL && buffer_size != 0) {
         free(buffer);
         buffer = NULL;
         buffer_size = 0;
     }
 
-    if (elements_buffer != NULL) {
+    if (elements_buffer != NULL && elements_buffer_size != 0) {
         free(elements_buffer);
         elements_buffer = NULL;
         elements_buffer_size = 0;
     }
 
-    if (elements_duplicate != NULL) {
+    if (elements_duplicate != NULL && elements_duplicate_size != 0) {
         free(elements_duplicate);
         elements_duplicate = NULL;
         elements_duplicate_size = 0;
