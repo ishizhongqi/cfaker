@@ -139,7 +139,7 @@ const char* cfaker_format_replace_string(const char* format, const struct cfaker
             const char* end = strchr(ptr, '}');
             if (end) {
                 size_t token_len = end - ptr - 1;
-                char token[token_len + 1];
+                char* token = malloc(token_len + 1);
                 strncpy(token, ptr + 1, token_len);
                 token[token_len] = '\0';
 
@@ -158,6 +158,9 @@ const char* cfaker_format_replace_string(const char* format, const struct cfaker
                     strcat(buffer, token);
                     strcat(buffer, "}");
                 }
+
+                free(token);
+                token = NULL;
 
                 ptr = end + 1;
                 continue;

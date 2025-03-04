@@ -19,6 +19,7 @@ aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/providers/data SOURCE_DATA_
 # Set compiler flags based on the platform/compiler
 if(MSVC)
     add_compile_options(/W4 /DEBUG)
+    add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
 elseif(CMAKE_C_COMPILER_ID MATCHES "GNU|Clang")
     add_compile_options(-Wall -Wextra -g)
 endif()
