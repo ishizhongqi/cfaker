@@ -15,8 +15,8 @@ double cfaker_number_double(double min, double max) {
 }
 
 const char* cfaker_number_hexadecimal_bylength(uint32_t length, bool upper, enum cfaker_number_hex_prefix hex_prefix) {
-    char format[length + 1];
-    memset(format, 0, length + 1);
+    char format[64 + 1];
+    memset(format, 0, 64 + 1);
     switch (hex_prefix) {
     case CFAKER_NUMBER_HEX_HASH:
         strcpy(format, "#");

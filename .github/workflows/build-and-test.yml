@@ -1,4 +1,3 @@
-# Workflow name
 name: Build and Test cfaker
 
 on:
@@ -10,7 +9,6 @@ on:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
-
     strategy:
       fail-fast: false
       matrix:
@@ -21,7 +19,7 @@ jobs:
           - os: windows-latest
             c_compiler: cl
           - os: windows-latest
-            c_compiler: gcc  # MinGW
+            c_compiler: gcc
           - os: ubuntu-latest
             c_compiler: gcc
           - os: ubuntu-latest
@@ -37,16 +35,16 @@ jobs:
             c_compiler: cl
           - os: macos-latest
             c_compiler: cl
-
     steps:
     - uses: actions/checkout@v4
 
     - name: Install MinGW (Windows)
       if: matrix.os == 'windows-latest' && matrix.c_compiler == 'gcc'
       run: |
-        choco install mingw -y
+        choco install mingw --version=13.2.0 -y
         echo "C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin" >> $GITHUB_PATH
-      shell: pwsh  # Explicitly use PowerShell for Windows
+        gcc --version
+      shell: pwsh
 
     - name: Install Clang (Linux and macOS)
       if: matrix.c_compiler == 'clang' && (matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest')
@@ -68,23 +66,32 @@ jobs:
 
     - name: Configure CMake (Main library only)
       run: |
-        cmake -B "${{ steps.strings.outputs.build-output-dir }}" -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -S "${{ github.workspace }}"
-      shell: bash  # Use bash for consistency across platforms
+        if [ "${{ matrix.c_compiler }}" = "gcc" ] && [ "${{ matrix.os }}" = "windows-latest" ]; then
+          cmake -G "MinGW Makefiles" -B "${{ steps.strings.outputs.build-output-dir }}" -DCMAKE_C_COMPILER=gcc -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -S "${{ github.workspace }}"
+        else
+          cmake -B "${{ steps.strings.outputs.build-output-dir }}" -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -S "${{ github.workspace }}"
+        fi
+      shell: bash
 
     - name: Build Main Library
-      run: cmake --build "${{ steps.strings.outputs.build-output-dir }}" --config ${{ matrix.build_type }}
+      run: |
+        if [ "${{ matrix.c_compiler }}" = "gcc" ] && [ "${{ matrix.os }}" = "windows-latest" ]; then
+          mingw32-make -C "${{ steps.strings.outputs.build-output-dir }}" VERBOSE=1
+        else
+          cmake --build "${{ steps.strings.outputs.build-output-dir }}" --config ${{ matrix.build_type }} --verbose
+        fi
       shell: bash
 
     - name: Upload Library Artifact
+      if: success() || failure()
       uses: actions/upload-artifact@v4
       with:
         name: cfaker-lib-${{ matrix.os }}-${{ matrix.build_type }}-${{ matrix.c_compiler }}
-        path: ${{ github.workspace }}/build/libcfaker.*
+        path: ${{ github.workspace }}/build/
 
   test:
     needs: build
     runs-on: ${{ matrix.os }}
-
     strategy:
       fail-fast: false
       matrix:
@@ -95,7 +102,7 @@ jobs:
           - os: windows-latest
             c_compiler: cl
           - os: windows-latest
-            c_compiler: gcc  # MinGW
+            c_compiler: gcc
           - os: ubuntu-latest
             c_compiler: gcc
           - os: ubuntu-latest
@@ -111,15 +118,15 @@ jobs:
             c_compiler: cl
           - os: macos-latest
             c_compiler: cl
-
     steps:
     - uses: actions/checkout@v4
 
     - name: Install MinGW (Windows)
       if: matrix.os == 'windows-latest' && matrix.c_compiler == 'gcc'
       run: |
-        choco install mingw -y
+        choco install mingw --version=13.2.0 -y
         echo "C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin" >> $GITHUB_PATH
+        gcc --version
       shell: pwsh
 
     - name: Install Clang (Linux and macOS)
@@ -142,11 +149,20 @@ jobs:
 
     - name: Configure CMake for Tests
       run: |
-        cmake -B "${{ github.workspace }}/test/build" -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -S "${{ github.workspace }}/test"
+        if [ "${{ matrix.c_compiler }}" = "gcc" ] && [ "${{ matrix.os }}" = "windows-latest" ]; then
+          cmake -G "MinGW Makefiles" -B "${{ github.workspace }}/test/build" -DCMAKE_C_COMPILER=gcc -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -S "${{ github.workspace }}/test"
+        else
+          cmake -B "${{ github.workspace }}/test/build" -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -S "${{ github.workspace }}/test"
+        fi
       shell: bash
 
     - name: Build Tests
-      run: cmake --build "${{ github.workspace }}/test/build" --config ${{ matrix.build_type }}
+      run: |
+        if [ "${{ matrix.c_compiler }}" = "gcc" ] && [ "${{ matrix.os }}" = "windows-latest" ]; then
+          mingw32-make -C "${{ github.workspace }}/test/build" VERBOSE=1
+        else
+          cmake --build "${{ github.workspace }}/test/build" --config ${{ matrix.build_type }} --verbose
+        fi
       shell: bash
 
     - name: Run Tests

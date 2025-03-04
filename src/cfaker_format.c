@@ -22,7 +22,7 @@ static size_t calculate_mappings_size(const char* format, const struct cfaker_fo
             const char* end = strchr(ptr, '}');
             if (end) {
                 size_t token_len = end - ptr - 1;
-                char token[token_len + 1];
+                char* token = malloc(token_len + 1);
                 strncpy(token, ptr + 1, token_len);
                 token[token_len] = '\0';
 
@@ -33,6 +33,9 @@ static size_t calculate_mappings_size(const char* format, const struct cfaker_fo
                         break;
                     }
                 }
+
+                free(token);
+                token = NULL;
 
                 if (replacement) {
                     size += strlen(replacement);
