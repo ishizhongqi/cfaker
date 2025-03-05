@@ -16,10 +16,18 @@
 /* Helper: Get current time in 100-nanosecond intervals since 1582-10-15 */
 static uint64_t get_time_v1() {
     uint64_t epoch_1582 = 122192928000000000ULL;  // 1582-10-15 to 1970-01-01 in 100ns
+
+#if defined(_WIN32)
+    FILETIME ft;
+    GetSystemTimeAsFileTime(&ft);
+    uint64_t time = ((uint64_t)ft.dwHighDateTime << 32) | ft.dwLowDateTime;
+    return time + epoch_1582;  // Already in 100ns intervals since 1601-01-01
+#else
     struct timespec ts;
     clock_gettime(CLOCK_REALTIME, &ts);
     uint64_t unix_ns = (uint64_t)ts.tv_sec * 10000000ULL + ts.tv_nsec / 100;
     return unix_ns + epoch_1582;
+#endif
 }
 
 /* Helper: Fake MAC address (random) */
@@ -59,9 +67,18 @@ const char* cfaker_uuid_v4() {
 }
 
 const char* cfaker_uuid_v7() {
+#if defined(_WIN32)
+    FILETIME ft;
+    GetSystemTimeAsFileTime(&ft);
+    uint64_t win_time = ((uint64_t)ft.dwHighDateTime << 32) | ft.dwLowDateTime;
+    // Convert Windows time (100ns since 1601-01-01) to Unix time (ms since 1970-01-01)
+    uint64_t epoch_diff = 116444736000000000ULL;         // 1601-01-01 to 1970-01-01 in 100ns
+    uint64_t unix_ms = (win_time - epoch_diff) / 10000;  // Convert to milliseconds
+#else
     struct timespec ts;
     clock_gettime(CLOCK_REALTIME, &ts);
     uint64_t unix_ms = (uint64_t)ts.tv_sec * 1000ULL + ts.tv_nsec / 1000000ULL;
+#endif
 
     uint32_t time_high = (uint32_t)(unix_ms >> 16);                         // 32 bits
     uint16_t time_low = (uint16_t)(unix_ms & 0xFFFF);                       // 16 bits
