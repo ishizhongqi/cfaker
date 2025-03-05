@@ -39,7 +39,7 @@ static int test_replace_numbers() {
 }
 
 static int test_replace_letters() {
-    const char* result = cfaker_format_replace_letters("???-abc", NULL);
+    const char* result = cfaker_format_replace_letters("?11?-abc", NULL);
     return check_string("cfaker_format_replace_letters", result);
 }
 

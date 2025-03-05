@@ -1,39 +1,45 @@
 # cfaker
 
-`cfaker` is a lightweight fake data generation library written in **C**, designed for cross-platform use, providing efficient and thread-safe fake data generation.
+`cfaker`  is a C library that generates fake data for you. Whether you need to bootstrap your database, create good-looking XML documents, fill-in your persistence to stress test it, or anonymize data taken from a production service, cfaker is for you.
 
-## Features
-
-- Pure C implementation with no external dependencies
-- Thread-safe pseudo-random number generation
-- Cross-platform support (Linux/Windows/macOS)
-- Predefined localized data
-- Uses static data storage to avoid dynamic memory allocation
-
-## Installation & Compilation
+## Installation
 
 ### Dependencies
 
-- Requires a **C11** or later compiler
-- Uses CMake as the build tool
+* C11 or Later Compiler: Required for thread-local storage (_Thread_local) and modern C features. Supported compilers include:
+  * GCC: Version 4.8 or later (common on Linux).
+  * Clang: Version 3.3 or later (default on macOS via Xcode).
+  * MSVC: Visual Studio 2015 or later (Windows).
+* CMake: Build tool (version 3.10 or higher recommended).
 
-### Build Steps
+### Build steps
 
-#### Linux
+#### Linux & macOS
 ```sh
 mkdir build && cd build
 cmake ..
 make
 ```
 #### Windows
+* MinGW (GCC):
 ```sh
 mkdir build && cd build
 cmake -G "MinGW Makefiles" ..
 cmake --build .
 ```
 
+* MSVC (Visual Studio):
+```sh
+mkdir build && cd build
+cmake -G "Visual Studio 17 2022" .. -A x64
+cmake --build .
+```
+
 ## Usage
 
+Place `libcfaker.a` or `cfaker.lib` in your project and include it in your CMake or Makefile to start using it.
+
+* Example:
 ```c
 #include "cfaker.h"
 int main() {
@@ -45,36 +51,46 @@ int main() {
     printf("First name: %s\n", cfaker_person_first_name(CFAKER_PERSON_MALE));
     printf("Last name: %s\n", cfaker_person_last_name());
     printf("Full name: %s\n", cfaker_person_full_name(CFAKER_PERSON_FEMALE));
-    cfaker_free();
+    cfaker_free(); // Free cfaker
     return 0;
 }
 ```
 
 ## Localization
 
-Currently supports `en_US` and `zh_CN`
+Currently supports the following locales:
+
+* `en_US`: English (United States)
+* `zh_CN`: Simplified Chinese (China)
+
+You can set the locale using `cfaker_locale_set(enum cfaker_locale locale)` or `cfaker_locale_set_bystring(const char* locale)`. If no locale is set, `en_US` is used by default.
+
+### Supported Locales
+See `cfaker_locales.h` for the full list of available locales (currently limited to `en_US` and `zh_CN`, with plans for expansion).
 
 ## Fake Data Interface Progress
 
-The current interface is not yet complete include the checked part, I will continue to improve them.
+The library provides a variety of fake data generation interfaces. Below is the current progress (checked items are implemented):
 
-- [ ] Address (`cfaker_address`)
-- [x] Bank (`cfaker_bank`)
-- [ ] Barcode (`cfaker_barcode`)
-- [x] Book (`cfaker_book`)
-- [x] Color (`cfaker_color`)
-- [x] Company (`cfaker_company`)
-- [x] Date & Time (`cfaker_datetime`)
-- [ ] Internet (`cfaker_internet`)
-- [x] Job (`cfaker_job`)
-- [x] Number (`cfaker_number`)
-- [x] Person (`cfaker_person`)
-- [x] Phone (`cfaker_phone`)
-- [ ] Payment (`cfaker_payment`)
-- [ ] Uuid (`cfaker_uuid`)
-- [ ] ...
+- [ ] **Address** (`cfaker_address`): Generate fake addresses.
+- [x] **Bank** (`cfaker_bank`): Generate bank names.
+- [ ] **Barcode** (`cfaker_barcode`): Generate barcode numbers.
+- [x] **Book** (`cfaker_book`): Generate book titles, authors, genres, etc.
+- [x] **Color** (`cfaker_color`): Generate color names and various color formats (RGB, HEX, etc.).
+- [x] **Company** (`cfaker_company`): Generate company names, prefixes, and suffixes.
+- [x] **Date & Time** (`cfaker_datetime`): Generate dates, times, and timestamps.
+- [ ] **Internet** (`cfaker_internet`): Generate emails, URLs, etc.
+- [x] **Job** (`cfaker_job`): Generate job titles.
+- [x] **Number** (`cfaker_number`): Generate random integers, doubles, and formatted numbers (hex, octal, binary).
+- [x] **Person** (`cfaker_person`): Generate names, prefixes, and suffixes.
+- [x] **Phone** (`cfaker_phone`): Generate phone numbers with country codes.
+- [ ] **Payment** (`cfaker_payment`): Generate credit card numbers, etc.
+- [ ] **UUID** (`cfaker_uuid`): Generate UUIDs.
+- [ ] **More to come...**: Open to suggestions for additional providers!
+
+See individual provider headers (e.g., providers/cfaker_person.h) for detailed function documentation.  
+I will continue to improve and expand the library with new interfaces and locale support.
 
 ## License
 
-MIT License
-
+Licensed under the [MIT License](LICENSE).
