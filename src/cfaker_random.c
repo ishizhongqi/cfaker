@@ -95,6 +95,12 @@ int32_t cfaker_random_int(int32_t min, int32_t max) {
     return (int32_t)(random_value % range + min);
 }
 
+uint32_t cfaker_random_uint(uint32_t min, uint32_t max) {
+    uint32_t random_value = mt19937_generate();
+    uint64_t range = (uint64_t)max - (uint64_t)min + 1;
+    return (uint32_t)(random_value % range + min);
+}
+
 double cfaker_random_double(double min, double max) {
     double scale = (double)mt19937_generate() / UINT32_MAX;
     return min + scale * (max - min);

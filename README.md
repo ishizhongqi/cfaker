@@ -85,7 +85,7 @@ The library provides a variety of fake data generation interfaces. Below is the 
 - [x] **Person** (`cfaker_person`): Generate names, prefixes, and suffixes.
 - [x] **Phone** (`cfaker_phone`): Generate phone numbers with country codes.
 - [ ] **Payment** (`cfaker_payment`): Generate credit card numbers, etc.
-- [ ] **UUID** (`cfaker_uuid`): Generate UUIDs.
+- [x] **UUID** (`cfaker_uuid`): Generate UUIDs.
 - [ ] **More to come...**: Open to suggestions for additional providers!
 
 See individual provider headers (e.g., providers/cfaker_person.h) for detailed function documentation.  

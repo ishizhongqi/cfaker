@@ -14,6 +14,7 @@
 #include "providers/cfaker_number.h"
 #include "providers/cfaker_person.h"
 #include "providers/cfaker_phone.h"
+#include "providers/cfaker_uuid.h"
 
 /**
  * @brief Initialize the cfaker library.

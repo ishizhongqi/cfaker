@@ -34,6 +34,20 @@ int cfaker_random_init(size_t size);
 int32_t cfaker_random_int(int32_t min, int32_t max);
 
 /**
+ * @brief Generate a random 32-bit unsigned integer.
+ *
+ * @param min The minimum value.
+ * @param max The maximum value.
+ *
+ * @returns A random 32-bit integer between `min` and `max`.
+ *
+ * @code
+ * cfaker_random_int(10, 100); // 42
+ * @endcode
+ */
+uint32_t cfaker_random_uint(uint32_t min, uint32_t max);
+
+/**
  * @brief Returns a random double value within the given range.
  *
  * @param min The minimum value of the range (inclusive).
