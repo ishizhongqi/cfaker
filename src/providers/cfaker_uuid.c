@@ -3,6 +3,7 @@
 
 #include "providers/cfaker_uuid.h"
 
+#include <inttypes.h>
 #include <stdio.h>
 #include <time.h>
 
@@ -61,7 +62,7 @@ const char* cfaker_uuid_v4() {
     uint64_t rand5 = ((uint64_t)cfaker_random_uint(0, 0xFFFF) << 32) | cfaker_random_uint(0, 0xFFFFFFFF);  // 48 bits
 
     char uuid[37];
-    snprintf(uuid, sizeof(uuid), "%08llx-%04x-%04x-%04x-%012llx", rand1, rand2, rand3, rand4, rand5);
+    snprintf(uuid, sizeof(uuid), "%08" PRIx64 "-%04x-%04x-%04x-%012" PRIx64, rand1, rand2, rand3, rand4, rand5);
     return cfaker_format_replace_string(uuid, NULL, 0);
 }
 
@@ -86,6 +87,6 @@ const char* cfaker_uuid_v7() {
     uint64_t rand_c = ((uint64_t)cfaker_random_uint(0, 0xFFFF) << 32) | cfaker_random_uint(0, 0xFFFFFFFF);  // 48 bits
 
     char uuid[37];
-    snprintf(uuid, sizeof(uuid), "%08x-%04x-%04x-%04x-%012llx", time_high, time_low, rand_a, rand_b, rand_c);
+    snprintf(uuid, sizeof(uuid), "%08x-%04x-%04x-%04x-%012" PRIx64, time_high, time_low, rand_a, rand_b, rand_c);
     return cfaker_format_replace_string(uuid, NULL, 0);
 }
