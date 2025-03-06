@@ -1,3 +1,4 @@
+#include "cfaker.h"
 #include "providers/cfaker_person.h"
 #include <stdio.h>
 #include <string.h>
@@ -69,6 +70,12 @@ static int test_full_name() {
 }
 
 int main() {
+    // Initialize cfaker
+    if (cfaker_init() != 0) {
+        printf("FAIL: cfaker_init failed\n");
+        return 1;
+    }
+
     int failures = 0;
 
     printf("Testing cfaker_person module...\n");
@@ -77,6 +84,9 @@ int main() {
     failures += test_prefix();
     failures += test_suffix();
     failures += test_full_name();
+
+    // Clean up
+    cfaker_free();
 
     if (failures == 0) {
         printf("All tests passed!\n");

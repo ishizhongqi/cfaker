@@ -1,3 +1,4 @@
+#include "cfaker.h"
 #include "cfaker_random.h"
 #include <stdio.h>
 #include <string.h>
@@ -20,17 +21,6 @@ static int check_string(const char* func_name, const char* result) {
     return 0;
 }
 
-static int test_init_free() {
-    int result = cfaker_random_init(1024);
-    if (result != 0) {
-        printf("FAIL: cfaker_random_init returned %d\n", result);
-        return 1;
-    }
-    printf("PASS: cfaker_random_init succeeded\n");
-    cfaker_random_free();
-    return 0;
-}
-
 static int test_random_int() {
     int32_t value = cfaker_random_int(10, 20);
     return check_int_range("cfaker_random_int", value, 10, 20);
@@ -47,17 +37,24 @@ static int test_random_letters() {
 }
 
 int main() {
+    // Initialize cfaker
+    if (cfaker_init() != 0) {
+        printf("FAIL: cfaker_init failed\n");
+        return 1;
+    }
+
     int failures = 0;
     printf("Testing cfaker_random module...\n");
-    failures += test_init_free();
     failures += test_random_int();
     failures += test_random_letters();
+
+    // Clean up
+    cfaker_free();
 
     if (failures == 0) {
         printf("All tests passed!\n");
     } else {
         printf("Tests failed: %d failures\n", failures);
     }
-    cfaker_random_free();
     return failures > 0 ? 1 : 0;
 }

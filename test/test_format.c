@@ -1,3 +1,4 @@
+#include "cfaker.h"
 #include "cfaker_format.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,16 +10,6 @@ static int check_string(const char* func_name, const char* result) {
         return 1;
     }
     printf("PASS: %s returned '%s'\n", func_name, result);
-    return 0;
-}
-
-static int test_init() {
-    int result = cfaker_format_init(1024);
-    if (result != 0) {
-        printf("FAIL: cfaker_format_init returned %d\n", result);
-        return 1;
-    }
-    printf("PASS: cfaker_format_init succeeded\n");
     return 0;
 }
 
@@ -44,18 +35,25 @@ static int test_replace_letters() {
 }
 
 int main() {
+    // Initialize cfaker
+    if (cfaker_init() != 0) {
+        printf("FAIL: cfaker_init failed\n");
+        return 1;
+    }
+
     int failures = 0;
     printf("Testing cfaker_format module...\n");
-    failures += test_init();
     failures += test_replace_string();
     failures += test_replace_numbers();
     failures += test_replace_letters();
+
+    // Clean up
+    cfaker_free();
 
     if (failures == 0) {
         printf("All tests passed!\n");
     } else {
         printf("Tests failed: %d failures\n", failures);
     }
-    cfaker_format_free();
     return failures > 0 ? 1 : 0;
 }

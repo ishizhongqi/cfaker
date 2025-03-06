@@ -1,3 +1,4 @@
+#include "cfaker.h"
 #include "providers/cfaker_number.h"
 #include <stdint.h>
 #include <stdio.h>
@@ -61,6 +62,12 @@ static int test_binary_byrange() {
 }
 
 int main() {
+    // Initialize cfaker
+    if (cfaker_init() != 0) {
+        printf("FAIL: cfaker_init failed\n");
+        return 1;
+    }
+
     int failures = 0;
     printf("Testing cfaker_number module...\n");
     failures += test_number_int();
@@ -69,6 +76,9 @@ int main() {
     failures += test_hexadecimal_byrange();
     failures += test_octal_byrange();
     failures += test_binary_byrange();
+
+    // Clean up
+    cfaker_free();
 
     if (failures == 0) {
         printf("All tests passed!\n");

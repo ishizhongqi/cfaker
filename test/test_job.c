@@ -1,3 +1,4 @@
+#include "cfaker.h"
 #include "providers/cfaker_job.h"
 #include <stdio.h>
 #include <string.h>
@@ -17,9 +18,18 @@ static int test_job_name() {
 }
 
 int main() {
+    // Initialize cfaker
+    if (cfaker_init() != 0) {
+        printf("FAIL: cfaker_init failed\n");
+        return 1;
+    }
+
     int failures = 0;
     printf("Testing cfaker_job module...\n");
     failures += test_job_name();
+
+    // Clean up
+    cfaker_free();
 
     if (failures == 0) {
         printf("All tests passed!\n");

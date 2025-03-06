@@ -1,3 +1,4 @@
+#include "cfaker.h"
 #include "providers/cfaker_bank.h"
 #include <stdio.h>
 #include <string.h>
@@ -17,9 +18,18 @@ static int test_bank_name() {
 }
 
 int main() {
+    // Initialize cfaker
+    if (cfaker_init() != 0) {
+        printf("FAIL: cfaker_init failed\n");
+        return 1;
+    }
+
     int failures = 0;
     printf("Testing cfaker_bank module...\n");
     failures += test_bank_name();
+
+    // Clean up
+    cfaker_free();
 
     if (failures == 0) {
         printf("All tests passed!\n");

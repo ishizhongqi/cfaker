@@ -1,3 +1,4 @@
+#include "cfaker.h"
 #include "providers/cfaker_book.h"
 #include <stdio.h>
 #include <string.h>
@@ -22,10 +23,19 @@ static int test_book_author() {
 }
 
 int main() {
+    // Initialize cfaker
+    if (cfaker_init() != 0) {
+        printf("FAIL: cfaker_init failed\n");
+        return 1;
+    }
+
     int failures = 0;
     printf("Testing cfaker_book module...\n");
     failures += test_book_title();
     failures += test_book_author();
+
+    // Clean up
+    cfaker_free();
 
     if (failures == 0) {
         printf("All tests passed!\n");
