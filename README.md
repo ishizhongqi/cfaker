@@ -74,7 +74,6 @@ The library provides a variety of fake data generation interfaces. Below is the 
 
 - [ ] **Address** (`cfaker_address`): Generate fake addresses.
 - [x] **Bank** (`cfaker_bank`): Generate bank names.
-- [ ] **Barcode** (`cfaker_barcode`): Generate barcode numbers.
 - [x] **Book** (`cfaker_book`): Generate book titles, authors, genres, etc.
 - [x] **Color** (`cfaker_color`): Generate color names and various color formats (RGB, HEX, etc.).
 - [x] **Company** (`cfaker_company`): Generate company names, prefixes, and suffixes.
