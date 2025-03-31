@@ -6,6 +6,8 @@ static const char* suffixes_en_US[] = {
 
 static const char* formats_en_US[] = {
     "{last_name} {suffix}",
+    "{last_name}-{last_name1}",
+    "{last_name}, {last_name1} and {last_name2}",
 };
 
 const struct cfaker_company cfaker_company_en_US = {

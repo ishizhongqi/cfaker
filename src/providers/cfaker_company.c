@@ -38,8 +38,8 @@ const char* cfaker_company_suffix() {
 const char* cfaker_company_name() {
     const struct cfaker_company company = get_cfaker_company();
     struct cfaker_format_mapping mappings[] = {
-        { "last_name", cfaker_person_last_name() },
-        { "prefix", cfaker_company_prefix() },
+        { "last_name", cfaker_person_last_name() },  { "last_name1", cfaker_person_last_name() },
+        { "last_name2", cfaker_person_last_name() }, { "prefix", cfaker_company_prefix() },
         { "suffix", cfaker_company_suffix() },
     };
     return cfaker_format_replace_string(company.formats[cfaker_random_int(0, company.format_count - 1)], mappings, 3);
