@@ -10,6 +10,7 @@
 #include "providers/cfaker_color.h"
 #include "providers/cfaker_company.h"
 #include "providers/cfaker_datetime.h"
+#include "providers/cfaker_internet.h"
 #include "providers/cfaker_job.h"
 #include "providers/cfaker_number.h"
 #include "providers/cfaker_person.h"
