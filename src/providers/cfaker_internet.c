@@ -1,11 +1,11 @@
+#define _POSIX_C_SOURCE 200809L
+
 #include "cfaker_format.h"
 #include "cfaker_locale.h"
 #include "cfaker_random.h"
 
 #include "providers/cfaker_internet.h"
 #include "providers/data/cfaker_internet_data.h"
-
-#define _POSIX_C_SOURCE 200809L
 
 #include <stdio.h>
 #include <stdlib.h>
