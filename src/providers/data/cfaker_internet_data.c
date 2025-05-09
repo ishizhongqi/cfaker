@@ -13,6 +13,14 @@ static const char* password_formats[] = {
     "              ",
 };
 
+static const char* email_formats[] = {
+    "{username}@{domain_name}",
+};
+
+static const char* url_formats[] = {
+    "{scheme}://{domain_name}/",
+};
+
 static const char* tlds_en_US[] = {
     "com", "net", "org", "biz", "info",
 };
@@ -209,6 +217,10 @@ const struct cfaker_internet cfaker_internet_en_US = {
     .username_format_count = sizeof(username_formats) / sizeof(username_formats[0]),
     .password_formats = password_formats,
     .password_format_count = sizeof(password_formats) / sizeof(password_formats[0]),
+    .email_formats = email_formats,
+    .email_format_count = sizeof(email_formats) / sizeof(email_formats[0]),
+    .url_formats = url_formats,
+    .url_format_count = sizeof(url_formats) / sizeof(url_formats[0]),
 };
 
 static const char* tlds_zh_CN[] = {
@@ -268,4 +280,8 @@ const struct cfaker_internet cfaker_internet_zh_CN = {
     .username_format_count = sizeof(username_formats) / sizeof(username_formats[0]),
     .password_formats = password_formats,
     .password_format_count = sizeof(password_formats) / sizeof(password_formats[0]),
+    .email_formats = email_formats,
+    .email_format_count = sizeof(email_formats) / sizeof(email_formats[0]),
+    .url_formats = url_formats,
+    .url_format_count = sizeof(url_formats) / sizeof(url_formats[0]),
 };

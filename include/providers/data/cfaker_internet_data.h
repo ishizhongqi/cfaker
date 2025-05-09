@@ -16,6 +16,10 @@ struct cfaker_internet {
     size_t username_format_count;
     const char** password_formats;
     size_t password_format_count;
+    const char** email_formats;
+    size_t email_format_count;
+    const char** url_formats;
+    size_t url_format_count;
 };
 
 extern const struct cfaker_internet cfaker_internet_en_US;

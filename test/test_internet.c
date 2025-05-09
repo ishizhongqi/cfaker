@@ -12,15 +12,23 @@ static int check_string(const char* func_name, const char* result) {
     return 0;
 }
 
+static int check_int_range(const char* func_name, int32_t value, int32_t min, int32_t max) {
+    if (value < min || value > max) {
+        printf("FAIL: %s returned %d, out of range [%d, %d]\n", func_name, value, min, max);
+        return 1;
+    }
+    printf("PASS: %s returned %d\n", func_name, value);
+    return 0;
+}
+
 static int test_internet_tlds() {
     const char* result = cfaker_internet_tlds();
     return check_string("cfaker_internet_tlds", result);
 }
 
 static int test_internet_domain() {
-    // const char* result = cfaker_internet_domain(2);
-    // return check_string("cfaker_internet_domain", result);
-    return 0;
+    const char* result = cfaker_internet_domain(1);
+    return check_string("cfaker_internet_domain", result);
 }
 
 static int test_internet_username() {
@@ -36,6 +44,37 @@ static int test_internet_password() {
     return check_string("cfaker_internet_password", result);
 }
 
+static int test_internet_email() {
+    const char* result = cfaker_internet_email(NULL);
+    return check_string("cfaker_internet_email", result);
+}
+
+static int test_internet_url() {
+    const char* schemes = "http,https";
+    const char* result = cfaker_internet_url(schemes);
+    return check_string("cfaker_internet_url", result);
+}
+
+static int test_internet_ipv4() {
+    const char* result = cfaker_internet_ipv4();
+    return check_string("cfaker_internet_ipv4", result);
+}
+
+static int test_internet_ipv6() {
+    const char* result = cfaker_internet_ipv6();
+    return check_string("cfaker_internet_ipv6", result);
+}
+
+static int test_internet_mac() {
+    const char* result = cfaker_internet_mac();
+    return check_string("cfaker_internet_mac", result);
+}
+
+static int test_internet_port() {
+    uint16_t result = cfaker_internet_port();
+    return check_int_range("cfaker_internet_port", result, 0, 65535);
+}
+
 int main() {
     // Initialize cfaker
     if (cfaker_init() != 0) {
@@ -49,6 +88,12 @@ int main() {
     failures += test_internet_domain();
     failures += test_internet_username();
     failures += test_internet_password();
+    failures += test_internet_email();
+    failures += test_internet_url();
+    failures += test_internet_ipv4();
+    failures += test_internet_ipv6();
+    failures += test_internet_mac();
+    failures += test_internet_port();
 
     // Clean up
     cfaker_free();
