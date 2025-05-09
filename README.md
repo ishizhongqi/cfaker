@@ -78,7 +78,7 @@ The library provides a variety of fake data generation interfaces. Below is the 
 - [x] **Color** (`cfaker_color`): Generate color names and various color formats (RGB, HEX, etc.).
 - [x] **Company** (`cfaker_company`): Generate company names, prefixes, and suffixes.
 - [x] **Date & Time** (`cfaker_datetime`): Generate dates, times, and timestamps.
-- [ ] **Internet** (`cfaker_internet`): Generate emails, URLs, etc.
+- [x] **Internet** (`cfaker_internet`): Generate emails, URLs, etc.
 - [x] **Job** (`cfaker_job`): Generate job titles.
 - [x] **Number** (`cfaker_number`): Generate random integers, doubles, and formatted numbers (hex, octal, binary).
 - [x] **Person** (`cfaker_person`): Generate names, prefixes, and suffixes.
