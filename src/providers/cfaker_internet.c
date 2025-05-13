@@ -12,7 +12,7 @@
 #include <string.h>
 
 struct cfaker_internet get_cfaker_internet() {
-    enum cfaker_locale locale = cfaker_locale_get();
+    const enum cfaker_locale locale = cfaker_locale_get();
     switch (locale) {
     case en_US:
         return cfaker_internet_en_US;
@@ -36,30 +36,29 @@ const char* cfaker_internet_domain(uint32_t levels) {
     if (levels < 1)
         return NULL;
 
-    const char* fmt = internet.domain_formats[cfaker_random_int(0, internet.domain_format_count - 1)];
+    const char* fmt = internet.domain_formats[cfaker_random_uint(0, internet.domain_format_count - 1)];
 
     struct cfaker_format_mapping mappings[2];
     mappings[0].token = "domain_word";
-    mappings[0].value = internet.domain_words[cfaker_random_int(0, internet.domain_word_count - 1)];
+    mappings[0].value = internet.domain_words[cfaker_random_uint(0, internet.domain_word_count - 1)];
 
     if (levels == 1) {
         mappings[1].token = "domain_name";
         mappings[1].value = cfaker_internet_tlds();
         return cfaker_format_replace_string(fmt, mappings, 2);
-    } else {
-        const char* sub = cfaker_internet_domain(levels - 1);
-        char* sub_copy = strdup(sub);
-        mappings[1].token = "domain_name";
-        mappings[1].value = sub_copy;
-        const char* result = cfaker_format_replace_string(fmt, mappings, 2);
-        free(sub_copy);
-        return result;
     }
+    const char* sub = cfaker_internet_domain(levels - 1);
+    char* sub_copy = strdup(sub);
+    mappings[1].token = "domain_name";
+    mappings[1].value = sub_copy;
+    const char* result = cfaker_format_replace_string(fmt, mappings, 2);
+    free(sub_copy);
+    return result;
 }
 
 const char* cfaker_internet_username() {
     const struct cfaker_internet internet = get_cfaker_internet();
-    struct cfaker_format_mapping mappings[] = {
+    const struct cfaker_format_mapping mappings[] = {
         { "username", cfaker_random_element(internet.usernames, internet.username_count) },
     };
     return cfaker_format_replace_chars(
@@ -80,11 +79,11 @@ const char* cfaker_internet_password(uint32_t length, uint8_t char_flags) {
     CharSet sets[7];
     size_t num_sets = 0;
 
-    if (char_flags & CFAKER_INTERNET_LOWERLETTER) {
+    if (char_flags & CFAKER_INTERNET_LOWERCASE) {
         sets[num_sets++] = (CharSet){ "abcdefghijklmnopqrstuvwxyz", 26 };
         total_chars += 26;
     }
-    if (char_flags & CFAKER_INTERNET_UPPERLETTER) {
+    if (char_flags & CFAKER_INTERNET_UPPERCASE) {
         sets[num_sets++] = (CharSet){ "ABCDEFGHIJKLMNOPQRSTUVWXYZ", 26 };
         total_chars += 26;
     }
@@ -165,7 +164,7 @@ const char* cfaker_internet_email(const char* domain) {
         return NULL;
     }
 
-    struct cfaker_format_mapping mappings[] = { { "username", username }, { "domain_name", domain_copy } };
+    const struct cfaker_format_mapping mappings[] = { { "username", username }, { "domain_name", domain_copy } };
 
     const char* result = cfaker_format_replace_string(
         internet.email_formats[cfaker_random_uint(0, internet.email_format_count - 1)], mappings, 2);
@@ -200,7 +199,7 @@ const char* cfaker_internet_url(const char* schemes) {
         return NULL;
     }
 
-    struct cfaker_format_mapping mappings[] = {
+    const struct cfaker_format_mapping mappings[] = {
         { "scheme", scheme },
         { "domain_name", domain_copy },
     };
@@ -215,10 +214,10 @@ const char* cfaker_internet_url(const char* schemes) {
 const char* cfaker_internet_ipv4() {
     char ipv4[16];
     memset(ipv4, 0, sizeof(ipv4));
-    unsigned o1 = cfaker_random_uint(0, 255);
-    unsigned o2 = cfaker_random_uint(0, 255);
-    unsigned o3 = cfaker_random_uint(0, 255);
-    unsigned o4 = cfaker_random_uint(0, 255);
+    const unsigned o1 = cfaker_random_uint(0, 255);
+    const unsigned o2 = cfaker_random_uint(0, 255);
+    const unsigned o3 = cfaker_random_uint(0, 255);
+    const unsigned o4 = cfaker_random_uint(0, 255);
     sprintf(ipv4, "%u.%u.%u.%u", o1, o2, o3, o4);
     return cfaker_format_replace_string(ipv4, NULL, 0);
 }
@@ -238,7 +237,7 @@ const char* cfaker_internet_ipv6() {
 const char* cfaker_internet_mac() {
     unsigned char mac[6];
     // Set the second least significant bit to 0 and the least significant bit to 1
-    int rand_byte = cfaker_random_uint(0, 255);
+    const uint32_t  rand_byte = cfaker_random_uint(0, 255);
     mac[0] = (unsigned char)((rand_byte & 0xFE) | 0x02);
     for (int i = 1; i < 6; i++) {
         mac[i] = cfaker_random_uint(0, 255);

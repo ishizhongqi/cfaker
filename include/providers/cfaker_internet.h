@@ -6,12 +6,12 @@
 /**
  * @brief Flag to include lowercase letters (a-z) in generated strings.
  */
-#define CFAKER_INTERNET_LOWERLETTER (1 << 0)
+#define CFAKER_INTERNET_LOWERCASE (1 << 0)
 
 /**
  * @brief Flag to include uppercase letters (A-Z) in generated strings.
  */
-#define CFAKER_INTERNET_UPPERLETTER (1 << 1)
+#define CFAKER_INTERNET_UPPERCASE (1 << 1)
 
 /**
  * @brief Flag to include numbers (0-9) in generated strings.
@@ -82,11 +82,11 @@ const char* cfaker_internet_username();
  * @brief Returns a random password with specified length and character types.
  *
  * @param length Length of the generated password.
- * @param char_flags Bitwise flags to specify allowed character types (e.g., CFAKER_INTERNET_LOWERLETTER).
+ * @param char_flags Bitwise flags to specify allowed character types (e.g., CFAKER_INTERNET_LOWERCASE).
  * @return Pointer to a null-terminated string containing the password.
  *
  * @code
- * cfaker_internet_password(12, CFAKER_INTERNET_LOWERLETTER | CFAKER_INTERNET_NUMBER) // "abc123def456"
+ * cfaker_internet_password(12, CFAKER_INTERNET_LOWERCASE | CFAKER_INTERNET_NUMBER) // "abc123def456"
  * @endcode
  */
 const char* cfaker_internet_password(uint32_t length, uint8_t char_flags);

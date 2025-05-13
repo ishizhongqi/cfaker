@@ -27,7 +27,7 @@ struct cfaker_format_mapping {
  * cfaker_format_init(1024); // Initializes format generator with buffer size 1024
  * @endcode
  */
-int cfaker_format_init(size_t size);
+int cfaker_format_init(const size_t size);
 
 const char* cfaker_format_replace_specifier(const char* format, ...);
 
@@ -45,7 +45,7 @@ const char* cfaker_format_replace_specifier(const char* format, ...);
  * @endcode
  */
 const char* cfaker_format_replace_string(const char* format, const struct cfaker_format_mapping* mappings,
-                                         size_t mapping_count);
+                                         const size_t mapping_count);
 
 /**
  * @brief Generate a string with each placeholder in ``text`` replaced according to specific rules:
@@ -108,7 +108,7 @@ const char* cfaker_format_replace_chars(const char* format, const char* letters)
  * cfaker_format_replace_hexchars("Hex code: ^^^"); // "Hex code: 3fA"
  * @endcode
  */
-const char* cfaker_format_replace_hexchars(const char* format, bool upper);
+const char* cfaker_format_replace_hexchars(const char* format, const bool upper);
 
 /**
  * @brief Formats a datetime string based on a format string and a random timestamp generated between two provided

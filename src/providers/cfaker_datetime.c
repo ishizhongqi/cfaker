@@ -5,20 +5,15 @@
 #include "providers/cfaker_datetime.h"
 #include "providers/data/cfaker_datetime_data.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <time.h>
 
 static struct cfaker_datetime get_cfaker_datetime() {
-    enum cfaker_locale locale = cfaker_locale_get();
+    const enum cfaker_locale locale = cfaker_locale_get();
     switch (locale) {
     case en_US:
         return cfaker_datetime_en_US;
-        break;
     case zh_CN:
         return cfaker_datetime_zh_CN;
-        break;
     default:
         break;
     }
@@ -37,51 +32,49 @@ const char* cfaker_datetime_month_name(enum cfaker_datetime_form form) {
     const struct cfaker_datetime datetime = get_cfaker_datetime();
     switch (form) {
     case CFAKER_DATETIME_ABBREVIATED:
-        return datetime.abbreviated_month[cfaker_random_int(0, datetime.abbreviated_month_count - 1)];
-        break;
+        return datetime.abbreviated_month[cfaker_random_uint(0, datetime.abbreviated_month_count - 1)];
     case CFAKER_DATETIME_FULL:
     default:
         break;
     }
-    return datetime.month[cfaker_random_int(0, datetime.month_count - 1)];
+    return datetime.month[cfaker_random_uint(0, datetime.month_count - 1)];
 }
 
 const char* cfaker_datetime_weekday_name(enum cfaker_datetime_form form) {
     const struct cfaker_datetime datetime = get_cfaker_datetime();
     switch (form) {
     case CFAKER_DATETIME_ABBREVIATED:
-        return datetime.abbreviated_weekday[cfaker_random_int(0, datetime.abbreviated_weekday_count - 1)];
-        break;
+        return datetime.abbreviated_weekday[cfaker_random_uint(0, datetime.abbreviated_weekday_count - 1)];
     case CFAKER_DATETIME_FULL:
     default:
         break;
     }
-    return datetime.weekday[cfaker_random_int(0, datetime.weekday_count - 1)];
+    return datetime.weekday[cfaker_random_uint(0, datetime.weekday_count - 1)];
 }
 
 const char* cfaker_datetime_timezone() {
     const struct cfaker_datetime datetime = get_cfaker_datetime();
-    return datetime.abbreviated_timezones[cfaker_random_int(0, datetime.abbreviated_timezone_count - 1)];
+    return datetime.abbreviated_timezones[cfaker_random_uint(0, datetime.abbreviated_timezone_count - 1)];
 }
 
 unsigned int cfaker_datetime_year() {
-    return cfaker_random_int(1970, 2030);
+    return cfaker_random_uint(1970, 2030);
 }
 
 unsigned int cfaker_datetime_month() {
-    return cfaker_random_int(1, 12);
+    return cfaker_random_uint(1, 12);
 }
 
 unsigned int cfaker_datetime_hour() {
-    return cfaker_random_int(0, 23);
+    return cfaker_random_uint(0, 23);
 }
 
 unsigned int cfaker_datetime_minute() {
-    return cfaker_random_int(0, 59);
+    return cfaker_random_uint(0, 59);
 }
 
 unsigned int cfaker_datetime_second() {
-    return cfaker_random_int(0, 59);
+    return cfaker_random_uint(0, 59);
 }
 
 unsigned int cfaker_datetime_day_of_month(unsigned int month) {
@@ -100,9 +93,9 @@ unsigned int cfaker_datetime_day_of_month(unsigned int month) {
         max_day = 31;
         break;
     }
-    return cfaker_random_int(1, max_day);
+    return cfaker_random_uint(1, max_day);
 }
 
 unsigned int cfaker_datetime_day_of_week() {
-    return cfaker_random_int(1, 7);
+    return cfaker_random_uint(1, 7);
 }

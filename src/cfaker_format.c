@@ -13,7 +13,7 @@ static _Thread_local size_t buffer_size = 0; /* Buffer size */
 
 /* Calculates the required buffer size for formatted output */
 static size_t calculate_mappings_size(const char* format, const struct cfaker_format_mapping* mappings,
-                                      size_t mapping_count) {
+                                      const size_t mapping_count) {
     size_t size = 1; /* Start with 1 for the null terminator */
 
     const char* ptr = format;
@@ -82,7 +82,7 @@ static size_t calculate_datetime_size(const char* format) {
     return size;
 }
 
-static int update_buffer_size(size_t size) {
+static int update_buffer_size(const size_t size) {
     if (buffer_size < size) {
         buffer = realloc(buffer, size * sizeof(char));
         if (!buffer) {
@@ -94,7 +94,7 @@ static int update_buffer_size(size_t size) {
     return 0;
 }
 
-int cfaker_format_init(size_t size) {
+int cfaker_format_init(const size_t size) {
     if (buffer == NULL) {
         buffer = (char*)malloc(size * sizeof(char));
         if (!buffer) {
@@ -110,7 +110,7 @@ const char* cfaker_format_replace_specifier(const char* format, ...) {
     va_list args;
 
     va_start(args, format);
-    int required_size = vsnprintf(NULL, 0, format, args);
+    const int required_size = vsnprintf(NULL, 0, format, args);
     if (update_buffer_size(required_size) != 0) {
         return NULL;
     }
@@ -124,8 +124,8 @@ const char* cfaker_format_replace_specifier(const char* format, ...) {
 }
 
 const char* cfaker_format_replace_string(const char* format, const struct cfaker_format_mapping* mappings,
-                                         size_t mapping_count) {
-    size_t required_size = calculate_mappings_size(format, mappings, mapping_count);
+                                         const size_t mapping_count) {
+    const size_t required_size = calculate_mappings_size(format, mappings, mapping_count);
 
     if (update_buffer_size(required_size) != 0) {
         return NULL;
@@ -174,7 +174,7 @@ const char* cfaker_format_replace_string(const char* format, const struct cfaker
 }
 
 const char* cfaker_format_replace_numbers(const char* format) {
-    size_t len = strlen(format);
+    const size_t len = strlen(format);
     if (update_buffer_size(len) != 0) {
         return NULL;
     }
@@ -198,7 +198,7 @@ const char* cfaker_format_replace_numbers(const char* format) {
 }
 
 const char* cfaker_format_replace_letters(const char* format, const char* letters) {
-    size_t len = strlen(format);
+    const size_t len = strlen(format);
     if (update_buffer_size(len) != 0) {
         return NULL;
     }
@@ -208,9 +208,9 @@ const char* cfaker_format_replace_letters(const char* format, const char* letter
             buffer[i] = (format[i] == '?') ? cfaker_random_letter() : format[i];
         }
     } else {
-        size_t letters_len = strlen(letters);
+        const size_t letters_len = strlen(letters);
         for (size_t i = 0; i < len; i++) {
-            buffer[i] = (format[i] == '?') ? letters[cfaker_random_int(0, letters_len - 1)] : format[i];
+            buffer[i] = (format[i] == '?') ? letters[cfaker_random_uint(0, letters_len - 1)] : format[i];
         }
     }
 
@@ -219,15 +219,15 @@ const char* cfaker_format_replace_letters(const char* format, const char* letter
 }
 
 const char* cfaker_format_replace_chars(const char* format, const char* letters) {
-    size_t len = strlen(format);
+    const size_t len = strlen(format);
     if (update_buffer_size(len) != 0) {
         return NULL;
     }
     return cfaker_format_replace_letters(cfaker_format_replace_numbers(format), letters);
 }
 
-const char* cfaker_format_replace_hexchars(const char* format, bool upper) {
-    size_t len = strlen(format);
+const char* cfaker_format_replace_hexchars(const char* format, const bool upper) {
+    const size_t len = strlen(format);
     if (update_buffer_size(len) != 0) {
         return NULL;
     }
@@ -240,16 +240,16 @@ const char* cfaker_format_replace_hexchars(const char* format, bool upper) {
 }
 
 const char* cfaker_format_replace_datetime(const char* format, const char* start, const char* end) {
-    size_t required_size = calculate_datetime_size(format);
+    const size_t required_size = calculate_datetime_size(format);
     if (update_buffer_size(required_size) != 0) {  // Resize buffer for larger possible result
         return NULL;
     }
 
     // Generate a random timestamp within the provided range
-    time_t random_timestamp = cfaker_random_timestamp(start, end);
+    const time_t random_timestamp = cfaker_random_timestamp(start, end);
 
     // Convert the random timestamp into a struct tm
-    struct tm* time_info = localtime(&random_timestamp);
+    const struct tm* time_info = localtime(&random_timestamp);
 
     // Format the datetime using strftime
     strftime(buffer, buffer_size, format, time_info);

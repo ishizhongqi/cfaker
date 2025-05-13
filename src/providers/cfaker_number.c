@@ -34,22 +34,22 @@ const char* cfaker_number_hexadecimal_bylength(uint32_t length, bool upper, enum
 }
 
 const char* cfaker_number_hexadecimal_byrange(int32_t min, int32_t max) {
-    int32_t number = cfaker_random_int(min, max);
+    const int32_t number = cfaker_random_int(min, max);
     return cfaker_format_replace_specifier("0x%x", number);
 }
 
 const char* cfaker_number_octal_byrange(int32_t min, int32_t max) {
-    int32_t number = cfaker_random_int(min, max);
+    const int32_t number = cfaker_random_int(min, max);
     return cfaker_format_replace_specifier("0o%o", number);
 }
 
 const char* cfaker_number_binary_byrange(int32_t min, int32_t max) {
     int32_t number = cfaker_random_int(min, max);
     int64_t binary = 0;
-    int32_t remainder, i = 1;
+    int32_t i = 1;
 
     while (number != 0) {
-        remainder = number % 2;
+        const int32_t remainder = number % 2;
         number /= 2;
         binary += remainder * i;
         i *= 10;

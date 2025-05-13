@@ -3,7 +3,6 @@
 
 #include <inttypes.h>
 #include <stdio.h>
-#include <time.h>
 
 #if defined(_WIN32)
 #include <windows.h>
@@ -23,7 +22,7 @@ static uint64_t get_time_v1() {
 #else
     struct timeval tv;
     gettimeofday(&tv, NULL);
-    uint64_t unix_ns = (uint64_t)tv.tv_sec * 10000000ULL + tv.tv_usec * 10;
+    const uint64_t unix_ns = (uint64_t)tv.tv_sec * 10000000ULL + tv.tv_usec * 10;
     return unix_ns + epoch_1582;
 #endif
 }
@@ -36,14 +35,14 @@ static void get_fake_mac(uint8_t* mac) {
 }
 
 const char* cfaker_uuid_v1() {
-    uint64_t time = get_time_v1();
-    uint16_t clock_seq = (uint16_t)cfaker_random_uint(0, 0x3FFF);  // 14位
+    const uint64_t time = get_time_v1();
+    const uint16_t clock_seq = (uint16_t)cfaker_random_uint(0, 0x3FFF);  // 14位
     uint8_t mac[6];
     get_fake_mac(mac);
 
-    uint32_t time_low = (uint32_t)(time & 0xFFFFFFFF);
-    uint16_t time_mid = (uint16_t)((time >> 32) & 0xFFFF);
-    uint16_t time_hi = (uint16_t)((time >> 48) & 0x0FFF) | (1 << 12);  // 版本1
+    const uint32_t time_low = (uint32_t)(time & 0xFFFFFFFF);
+    const uint16_t time_mid = (uint16_t)((time >> 32) & 0xFFFF);
+    const uint16_t time_hi = (uint16_t)((time >> 48) & 0x0FFF) | (1 << 12);  // 版本1
 
     char uuid[37];
     snprintf(uuid, sizeof(uuid), "%08x-%04x-%04x-%04x-%02x%02x%02x%02x%02x%02x", time_low, time_mid, time_hi,
@@ -53,11 +52,11 @@ const char* cfaker_uuid_v1() {
 }
 
 const char* cfaker_uuid_v4() {
-    uint32_t rand1 = cfaker_random_uint(0, 0xFFFFFFFF);                  // 32位
-    uint16_t rand2 = (uint16_t)cfaker_random_uint(0, 0xFFFF);            // 16位
-    uint16_t rand3 = (cfaker_random_uint(0, 0xFFF) & 0x0FFF) | 0x4000;   // 16位，版本4
-    uint16_t rand4 = (cfaker_random_uint(0, 0x3FFF) & 0x3FFF) | 0x8000;  // 16位，变体10xx
-    uint64_t rand5 = ((uint64_t)cfaker_random_uint(0, 0xFFFF) << 32) | cfaker_random_uint(0, 0xFFFFFFFF);  // 48位
+    const uint32_t rand1 = cfaker_random_uint(0, 0xFFFFFFFF);                  // 32位
+    const uint16_t rand2 = (uint16_t)cfaker_random_uint(0, 0xFFFF);            // 16位
+    const uint16_t rand3 = (cfaker_random_uint(0, 0xFFF) & 0x0FFF) | 0x4000;   // 16位，版本4
+    const uint16_t rand4 = (cfaker_random_uint(0, 0x3FFF) & 0x3FFF) | 0x8000;  // 16位，变体10xx
+    const uint64_t rand5 = ((uint64_t)cfaker_random_uint(0, 0xFFFF) << 32) | cfaker_random_uint(0, 0xFFFFFFFF);  // 48位
 
     char uuid[37];
     snprintf(uuid, sizeof(uuid), "%08" PRIx32 "-%04x-%04x-%04x-%012" PRIx64, rand1, rand2, rand3, rand4, rand5);
@@ -78,11 +77,11 @@ const char* cfaker_uuid_v7() {
     uint64_t unix_ms = (uint64_t)tv.tv_sec * 1000ULL + tv.tv_usec / 1000ULL;
 #endif
 
-    uint32_t time_high = (uint32_t)(unix_ms >> 16);                         // 32位
-    uint16_t time_low = (uint16_t)(unix_ms & 0xFFFF);                       // 16位
-    uint16_t rand_a = (cfaker_random_uint(0, 0xFFF) & 0x0FFF) | (7 << 12);  // 12位随机数 + 版本7
-    uint16_t rand_b = (cfaker_random_uint(0, 0xFFFF) & 0x3FFF) | 0x8000;    // 14位随机数 + 变体10xx
-    uint64_t rand_c = ((uint64_t)cfaker_random_uint(0, 0xFFFF) << 32) | cfaker_random_uint(0, 0xFFFFFFFF);  // 48位
+    const uint32_t time_high = (uint32_t)(unix_ms >> 16);                         // 32位
+    const uint16_t time_low = (uint16_t)(unix_ms & 0xFFFF);                       // 16位
+    const uint16_t rand_a = (cfaker_random_uint(0, 0xFFF) & 0x0FFF) | (7 << 12);  // 12位随机数 + 版本7
+    const uint16_t rand_b = (cfaker_random_uint(0, 0xFFFF) & 0x3FFF) | 0x8000;    // 14位随机数 + 变体10xx
+    const uint64_t rand_c = ((uint64_t)cfaker_random_uint(0, 0xFFFF) << 32) | cfaker_random_uint(0, 0xFFFFFFFF);  // 48位
 
     char uuid[37];
     snprintf(uuid, sizeof(uuid), "%08x-%04x-%04x-%04x-%012" PRIx64, time_high, time_low, rand_a, rand_b, rand_c);

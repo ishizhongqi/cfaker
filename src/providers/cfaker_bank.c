@@ -6,14 +6,12 @@
 #include "providers/data/cfaker_bank_data.h"
 
 static struct cfaker_bank get_cfaker_bank() {
-    enum cfaker_locale locale = cfaker_locale_get();
+    const enum cfaker_locale locale = cfaker_locale_get();
     switch (locale) {
     case en_US:
         return cfaker_bank_en_US;
-        break;
     case zh_CN:
         return cfaker_bank_zh_CN;
-        break;
     default:
         break;
     }
@@ -22,5 +20,5 @@ static struct cfaker_bank get_cfaker_bank() {
 
 const char* cfaker_bank_name() {
     const struct cfaker_bank bank = get_cfaker_bank();
-    return bank.names[cfaker_random_int(0, bank.bank_count - 1)];
+    return bank.names[cfaker_random_uint(0, bank.bank_count - 1)];
 }

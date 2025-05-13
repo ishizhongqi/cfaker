@@ -9,14 +9,12 @@
 #include <string.h>
 
 static struct cfaker_color get_cfaker_color() {
-    enum cfaker_locale locale = cfaker_locale_get();
+    const enum cfaker_locale locale = cfaker_locale_get();
     switch (locale) {
     case en_US:
         return cfaker_color_en_US;
-        break;
     case zh_CN:
         return cfaker_color_zh_CN;
-        break;
     default:
         break;
     }
@@ -25,7 +23,7 @@ static struct cfaker_color get_cfaker_color() {
 
 const char* cfaker_color_name() {
     const struct cfaker_color color = get_cfaker_color();
-    return color.names[cfaker_random_int(0, color.name_count - 1)];
+    return color.names[cfaker_random_uint(0, color.name_count - 1)];
 }
 
 const char* cfaker_color_rgb(bool include_alpha) {
@@ -37,11 +35,11 @@ const char* cfaker_color_rgb(bool include_alpha) {
     memset(green, 0, sizeof(green));
     memset(blue, 0, sizeof(blue));
     memset(alpha, 0, sizeof(alpha));
-    sprintf(red, "%u", cfaker_random_int(0, 255));
-    sprintf(green, "%u", cfaker_random_int(0, 255));
-    sprintf(blue, "%u", cfaker_random_int(0, 255));
+    sprintf(red, "%u", cfaker_random_uint(0, 255));
+    sprintf(green, "%u", cfaker_random_uint(0, 255));
+    sprintf(blue, "%u", cfaker_random_uint(0, 255));
     sprintf(alpha, "%.2f", cfaker_random_double(0, 1.0));
-    struct cfaker_format_mapping mappings[] = {
+    const struct cfaker_format_mapping mappings[] = {
         { "red", red },
         { "green", green },
         { "blue", blue },
@@ -66,11 +64,11 @@ const char* cfaker_color_hsl(bool include_alpha) {
     memset(saturation, 0, sizeof(saturation));
     memset(lightness, 0, sizeof(lightness));
     memset(alpha, 0, sizeof(alpha));
-    sprintf(hue, "%u", cfaker_random_int(0, 360));
-    sprintf(saturation, "%u", cfaker_random_int(0, 100));
-    sprintf(lightness, "%u", cfaker_random_int(0, 100));
+    sprintf(hue, "%u", cfaker_random_uint(0, 360));
+    sprintf(saturation, "%u", cfaker_random_uint(0, 100));
+    sprintf(lightness, "%u", cfaker_random_uint(0, 100));
     sprintf(alpha, "%.2f", cfaker_random_double(0, 1.0));
-    struct cfaker_format_mapping mappings[] = {
+    const struct cfaker_format_mapping mappings[] = {
         { "hue", hue },
         { "saturation", saturation },
         { "lightness", lightness },
@@ -91,11 +89,11 @@ const char* cfaker_color_lch(bool include_alpha) {
     memset(chroma, 0, sizeof(chroma));
     memset(hue, 0, sizeof(hue));
     memset(alpha, 0, sizeof(alpha));
-    sprintf(luminance, "%u", cfaker_random_int(0, 360));
-    sprintf(chroma, "%u", cfaker_random_int(0, 100));
-    sprintf(hue, "%u", cfaker_random_int(0, 100));
+    sprintf(luminance, "%u", cfaker_random_uint(0, 360));
+    sprintf(chroma, "%u", cfaker_random_uint(0, 100));
+    sprintf(hue, "%u", cfaker_random_uint(0, 100));
     sprintf(alpha, "%.2f", cfaker_random_double(0, 1.0));
-    struct cfaker_format_mapping mappings[] = {
+    const struct cfaker_format_mapping mappings[] = {
         { "luminance", luminance },
         { "chroma", chroma },
         { "hue", hue },
@@ -120,7 +118,7 @@ const char* cfaker_color_cmyk() {
     sprintf(magenta, "%.2f", cfaker_random_double(0, 1.0));
     sprintf(yellow, "%.2f", cfaker_random_double(0, 1.0));
     sprintf(key, "%.2f", cfaker_random_double(0, 1.0));
-    struct cfaker_format_mapping mappings[] = {
+    const struct cfaker_format_mapping mappings[] = {
         { "cyan", cyan },
         { "magenta", magenta },
         { "yellow", yellow },
@@ -139,7 +137,7 @@ const char* cfaker_color_lab() {
     sprintf(lightness, "%.2f", cfaker_random_double(0, 100.0));
     sprintf(red_green, "%.2f", cfaker_random_double(-128.0, 128.0));
     sprintf(blue_yellow, "%.2f", cfaker_random_double(-128.0, 128.0));
-    struct cfaker_format_mapping mappings[] = {
+    const struct cfaker_format_mapping mappings[] = {
         { "lightness", lightness },
         { "red_green", red_green },
         { "blue_yellow", blue_yellow },
@@ -154,10 +152,10 @@ const char* cfaker_color_hsb() {
     memset(hue, 0, sizeof(hue));
     memset(saturation, 0, sizeof(saturation));
     memset(brightness, 0, sizeof(brightness));
-    sprintf(hue, "%u", cfaker_random_int(0, 360));
-    sprintf(saturation, "%u", cfaker_random_int(0, 100));
-    sprintf(brightness, "%u", cfaker_random_int(0, 100));
-    struct cfaker_format_mapping mappings[] = {
+    sprintf(hue, "%u", cfaker_random_uint(0, 360));
+    sprintf(saturation, "%u", cfaker_random_uint(0, 100));
+    sprintf(brightness, "%u", cfaker_random_uint(0, 100));
+    const struct cfaker_format_mapping mappings[] = {
         { "hue", hue },
         { "saturation", saturation },
         { "brightness", brightness },
@@ -172,10 +170,10 @@ const char* cfaker_color_hsv() {
     memset(hue, 0, sizeof(hue));
     memset(saturation, 0, sizeof(saturation));
     memset(value, 0, sizeof(value));
-    sprintf(hue, "%u", cfaker_random_int(0, 360));
-    sprintf(saturation, "%u", cfaker_random_int(0, 100));
-    sprintf(value, "%u", cfaker_random_int(0, 100));
-    struct cfaker_format_mapping mappings[] = {
+    sprintf(hue, "%u", cfaker_random_uint(0, 360));
+    sprintf(saturation, "%u", cfaker_random_uint(0, 100));
+    sprintf(value, "%u", cfaker_random_uint(0, 100));
+    const struct cfaker_format_mapping mappings[] = {
         { "hue", hue },
         { "saturation", saturation },
         { "value", value },
@@ -190,10 +188,10 @@ const char* cfaker_color_hwb() {
     memset(hue, 0, sizeof(hue));
     memset(whiteness, 0, sizeof(whiteness));
     memset(blackness, 0, sizeof(blackness));
-    sprintf(hue, "%u", cfaker_random_int(0, 360));
-    sprintf(whiteness, "%u", cfaker_random_int(0, 100));
-    sprintf(blackness, "%u", cfaker_random_int(0, 100));
-    struct cfaker_format_mapping mappings[] = {
+    sprintf(hue, "%u", cfaker_random_uint(0, 360));
+    sprintf(whiteness, "%u", cfaker_random_uint(0, 100));
+    sprintf(blackness, "%u", cfaker_random_uint(0, 100));
+    const struct cfaker_format_mapping mappings[] = {
         { "hue", hue },
         { "whiteness", whiteness },
         { "blackness", blackness },
@@ -208,10 +206,10 @@ const char* cfaker_color_yuv() {
     memset(luminance, 0, sizeof(luminance));
     memset(chrominance_blue, 0, sizeof(chrominance_blue));
     memset(chrominance_red, 0, sizeof(chrominance_red));
-    sprintf(luminance, "%u", cfaker_random_int(0, 255));
-    sprintf(chrominance_blue, "%u", cfaker_random_int(0, 255));
-    sprintf(chrominance_red, "%u", cfaker_random_int(0, 255));
-    struct cfaker_format_mapping mappings[] = {
+    sprintf(luminance, "%u", cfaker_random_uint(0, 255));
+    sprintf(chrominance_blue, "%u", cfaker_random_uint(0, 255));
+    sprintf(chrominance_red, "%u", cfaker_random_uint(0, 255));
+    const struct cfaker_format_mapping mappings[] = {
         { "luminance", luminance },
         { "chrominance_blue", chrominance_blue },
         { "chrominance_red", chrominance_red },

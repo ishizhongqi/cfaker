@@ -1,6 +1,5 @@
 #include "cfaker_random.h"
 
-#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -72,14 +71,14 @@ int cfaker_random_init(size_t size) {
         elements_duplicate_size = size;
     }
 
-    int pid =
+    const int pid =
 #ifdef _MSC_VER
         _getpid();
 #else
         getpid();
 #endif
 
-    unsigned int seed = (unsigned int)time(NULL) + pid;
+    const unsigned int seed = (unsigned int)time(NULL) + pid;
     mt19937_state[0] = seed;
     for (int i = 1; i < 624; i++) {
         mt19937_state[i] = (1812433253 * (mt19937_state[i - 1] ^ (mt19937_state[i - 1] >> 30)) + i);
@@ -89,9 +88,9 @@ int cfaker_random_init(size_t size) {
 }
 
 int32_t cfaker_random_int(int32_t min, int32_t max) {
-    uint32_t random_value = mt19937_generate();
+    const uint32_t random_value = mt19937_generate();
     /* return (random_value % (max - min + 1)) + min; */
-    int64_t range = (int64_t)max - (int64_t)min + 1;
+    const int64_t range = (int64_t)max - (int64_t)min + 1;
     return (int32_t)(random_value % range + min);
 }
 
@@ -102,7 +101,7 @@ uint32_t cfaker_random_uint(uint32_t min, uint32_t max) {
 }
 
 double cfaker_random_double(double min, double max) {
-    double scale = (double)mt19937_generate() / UINT32_MAX;
+    const double scale = (double)mt19937_generate() / UINT32_MAX;
     return min + scale * (max - min);
 }
 
@@ -254,11 +253,11 @@ int cfaker_random_randomize(int number, int le, int ge, int min_val, int max_val
     }
 
     /* Determine the lower and upper percentage bounds */
-    int lower_percentage = ge ? 100 : 60;
-    int upper_percentage = le ? 100 : 140;
+    const int lower_percentage = ge ? 100 : 60;
+    const int upper_percentage = le ? 100 : 140;
 
     /* Generate a random percentage between the determined bounds */
-    int percentage = cfaker_random_int(lower_percentage, upper_percentage);
+    const int percentage = cfaker_random_int(lower_percentage, upper_percentage);
     int nb = number * percentage / 100; /* Calculate the new number based on the percentage */
 
     /* Apply minimum and maximum constraints if provided */
@@ -274,7 +273,6 @@ int cfaker_random_randomize(int number, int le, int ge, int min_val, int max_val
 
 time_t cfaker_random_timestamp(const char* start, const char* end) {
     struct tm tm_start = { 0 }, tm_end = { 0 };
-    time_t start_time, end_time;
 
     // Use sscanf to parse the datetime string manually
     sscanf(start, "%d-%d-%d %d:%d:%d", &tm_start.tm_year, &tm_start.tm_mon, &tm_start.tm_mday, &tm_start.tm_hour,
@@ -289,11 +287,11 @@ time_t cfaker_random_timestamp(const char* start, const char* end) {
     tm_end.tm_mon -= 1;
 
     // Convert to time_t
-    start_time = mktime(&tm_start);
-    end_time = mktime(&tm_end);
+    const time_t start_time = mktime(&tm_start);
+    const time_t end_time = mktime(&tm_end);
 
     // Generate a random timestamp between start_time and end_time
-    return cfaker_random_int(start_time, end_time);
+    return cfaker_random_uint(start_time, end_time);
 }
 
 void cfaker_random_free() {

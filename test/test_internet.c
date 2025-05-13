@@ -39,7 +39,7 @@ static int test_internet_username() {
 static int test_internet_password() {
     int length = 10;
     uint8_t char_flags =
-        CFAKER_INTERNET_LOWERLETTER | CFAKER_INTERNET_UPPERLETTER | CFAKER_INTERNET_NUMBER | CFAKER_INTERNET_SPECIAL;
+        CFAKER_INTERNET_LOWERCASE | CFAKER_INTERNET_UPPERCASE | CFAKER_INTERNET_NUMBER | CFAKER_INTERNET_SPECIAL;
     const char* result = cfaker_internet_password(length, char_flags);
     return check_string("cfaker_internet_password", result);
 }
