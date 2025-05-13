@@ -237,7 +237,7 @@ const char* cfaker_internet_ipv6() {
 const char* cfaker_internet_mac() {
     unsigned char mac[6];
     // Set the second least significant bit to 0 and the least significant bit to 1
-    const uint32_t  rand_byte = cfaker_random_uint(0, 255);
+    const uint32_t rand_byte = cfaker_random_uint(0, 255);
     mac[0] = (unsigned char)((rand_byte & 0xFE) | 0x02);
     for (int i = 1; i < 6; i++) {
         mac[i] = cfaker_random_uint(0, 255);
