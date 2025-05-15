@@ -88,6 +88,7 @@ implemented):
 - [ ] **Address** (`cfaker_address`): Generate fake addresses.
 - [x] **Bank** (`cfaker_bank`): Generate bank names.
 - [x] **Book** (`cfaker_book`): Generate book titles, authors, genres, etc.
+- [x] **Card** (`cfaker_card`): Generate debit/credit card pan, CVV2, issuer, etc.
 - [x] **Color** (`cfaker_color`): Generate color names and various color formats (RGB, HEX, etc.).
 - [x] **Company** (`cfaker_company`): Generate company names, prefixes, and suffixes.
 - [x] **Date & Time** (`cfaker_datetime`): Generate dates, times, and timestamps.
@@ -96,7 +97,6 @@ implemented):
 - [x] **Number** (`cfaker_number`): Generate random integers, doubles, and formatted numbers (hex, octal, binary).
 - [x] **Person** (`cfaker_person`): Generate names, prefixes, and suffixes.
 - [x] **Phone** (`cfaker_phone`): Generate phone numbers with country codes.
-- [x] **Card** (`cfaker_card`): Generate debit/credit card pan, CVV2, issuer, etc.
 - [x] **UUID** (`cfaker_uuid`): Generate UUIDs.
 - [ ] **More to come...**: Open to suggestions for additional providers!
 
