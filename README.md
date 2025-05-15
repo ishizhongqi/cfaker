@@ -1,27 +1,34 @@
 # cfaker
 
-`cfaker`  is a C library that generates fake data for you. Whether you need to bootstrap your database, create good-looking XML documents, fill-in your persistence to stress test it, or anonymize data taken from a production service, cfaker is for you.
+`cfaker`  is a C library that generates fake data for you. Whether you need to bootstrap your database, create
+good-looking XML documents, fill-in your persistence to stress test it, or anonymize data taken from a production
+service, cfaker is for you.
 
 ## Installation
 
 ### Dependencies
 
-* C11 or Later Compiler: Required for thread-local storage (_Thread_local) and modern C features. Supported compilers include:
-  * GCC: Version 4.8 or later (common on Linux).
-  * Clang: Version 3.3 or later (default on macOS via Xcode).
-  * MSVC: Visual Studio 2015 or later (Windows).
+* C11 or Later Compiler: Required for thread-local storage (_Thread_local) and modern C features. Supported compilers
+  include:
+    * GCC: Version 4.8 or later (common on Linux).
+    * Clang: Version 3.3 or later (default on macOS via Xcode).
+    * MSVC: Visual Studio 2015 or later (Windows).
 * CMake: Build tool (version 3.10 or higher recommended).
 
 ### Build steps
 
 #### Linux & macOS
+
 ```sh
 mkdir build && cd build
 cmake ..
 make
 ```
+
 #### Windows
+
 * MinGW (GCC):
+
 ```sh
 mkdir build && cd build
 cmake -G "MinGW Makefiles" ..
@@ -29,6 +36,7 @@ cmake --build .
 ```
 
 * MSVC (Visual Studio):
+
 ```sh
 mkdir build && cd build
 cmake -G "Visual Studio 17 2022" .. -A x64
@@ -40,6 +48,7 @@ cmake --build .
 Place `libcfaker.a` or `cfaker.lib` in your project and include it in your CMake or Makefile to start using it.
 
 * Example:
+
 ```c
 #include "cfaker.h"
 int main() {
@@ -63,14 +72,18 @@ Currently supports the following locales:
 * `en_US`: English (United States)
 * `zh_CN`: Simplified Chinese (China)
 
-You can set the locale using `cfaker_locale_set(enum cfaker_locale locale)` or `cfaker_locale_set_bystring(const char* locale)`. If no locale is set, `en_US` is used by default.
+You can set the locale using `cfaker_locale_set(enum cfaker_locale locale)` or
+`cfaker_locale_set_bystring(const char* locale)`. If no locale is set, `en_US` is used by default.
 
 ### Supported Locales
-See `cfaker_locales.h` for the full list of available locales (currently limited to `en_US` and `zh_CN`, with plans for expansion).
+
+See `cfaker_locales.h` for the full list of available locales (currently limited to `en_US` and `zh_CN`, with plans for
+expansion).
 
 ## Fake Data Interface Progress
 
-The library provides a variety of fake data generation interfaces. Below is the current progress (checked items are implemented):
+The library provides a variety of fake data generation interfaces. Below is the current progress (checked items are
+implemented):
 
 - [ ] **Address** (`cfaker_address`): Generate fake addresses.
 - [x] **Bank** (`cfaker_bank`): Generate bank names.
@@ -83,7 +96,7 @@ The library provides a variety of fake data generation interfaces. Below is the 
 - [x] **Number** (`cfaker_number`): Generate random integers, doubles, and formatted numbers (hex, octal, binary).
 - [x] **Person** (`cfaker_person`): Generate names, prefixes, and suffixes.
 - [x] **Phone** (`cfaker_phone`): Generate phone numbers with country codes.
-- [ ] **Payment** (`cfaker_payment`): Generate credit card numbers, etc.
+- [x] **Card** (`cfaker_card`): Generate debit/credit card pan, CVV2, issuer, etc.
 - [x] **UUID** (`cfaker_uuid`): Generate UUIDs.
 - [ ] **More to come...**: Open to suggestions for additional providers!
 

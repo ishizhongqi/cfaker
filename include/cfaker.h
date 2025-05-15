@@ -7,6 +7,7 @@
 
 #include "providers/cfaker_bank.h"
 #include "providers/cfaker_book.h"
+#include "providers/cfaker_card.h"
 #include "providers/cfaker_color.h"
 #include "providers/cfaker_company.h"
 #include "providers/cfaker_datetime.h"
