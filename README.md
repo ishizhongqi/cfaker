@@ -85,7 +85,6 @@ expansion).
 The library provides a variety of fake data generation interfaces. Below is the current progress (checked items are
 implemented):
 
-- [ ] **Address** (`cfaker_address`): Generate fake addresses.
 - [x] **Bank** (`cfaker_bank`): Generate bank names.
 - [x] **Book** (`cfaker_book`): Generate book titles, authors, genres, etc.
 - [x] **Card** (`cfaker_card`): Generate debit/credit card pan, CVV2, issuer, etc.

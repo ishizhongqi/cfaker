@@ -3,3 +3,5 @@ doc/
 build/
 libcfaker.a
 cloc-2.04.exe
+/.venv/
+/tbd/
